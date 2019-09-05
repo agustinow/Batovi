@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/element_proyect"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/rounded_corner_dialog">
+
+    <ImageButton
+        android:id="@+id/imgBtnJunior"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtnNormal"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgBtnNormal"
+        app:srcCompat="@drawable/ic_coffe_cup2" />
+
+    <ImageButton
+        android:id="@+id/imgBtnProfesional"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnComplex"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_coffe_ma1" />
+
+    <ImageButton
+        android:id="@+id/imgBtnNormal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtnComplex"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnJunior"
+        app:layout_constraintTop_toTopOf="@+id/imgBtnComplex"
+        app:srcCompat="@drawable/ic_coffe_cup1" />
+
+    <ImageButton
+        android:id="@+id/imgBtnComplex"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtnProfesional"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnNormal"
+        app:layout_constraintTop_toTopOf="@+id/imgBtnProfesional"
+        app:srcCompat="@drawable/ic_coffe_ma3" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Junior"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtnJunior"
+        app:layout_constraintStart_toStartOf="@+id/imgBtnJunior"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnJunior" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="Profesional"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtnProfesional"
+        app:layout_constraintStart_toStartOf="@+id/imgBtnProfesional"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnProfesional" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Normal"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtnNormal"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="@+id/imgBtnNormal"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnNormal" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="Complex"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtnComplex"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="@+id/imgBtnComplex"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnComplex" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
