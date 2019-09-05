@@ -12,12 +12,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoadActivity : AppCompatActivity() {
+    lateinit var model: LoadViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_load)
         //LOAD VIEWMODEL
-        ViewModelProviders.of(this@LoadActivity)[LoadViewModel::class.java]
+        model = ViewModelProviders.of(this@LoadActivity)[LoadViewModel::class.java]
         //WAIT AND START
         GlobalScope.launch{
             delay(1500L)
