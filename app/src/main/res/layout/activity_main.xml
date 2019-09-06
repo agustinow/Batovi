@@ -23,6 +23,7 @@
         app:srcCompat="@drawable/ic_adddp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_projects"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
