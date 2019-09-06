@@ -2,6 +2,7 @@ package com.poronga.batovi.view.ui.main
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.poronga.batovi.*
@@ -137,5 +142,21 @@ class MainActivity : AppCompatActivity() {
         recycler_projects.layoutManager = lm
         recycler_projects.addItemDecoration(decor)
         recycler_projects.adapter = adapter
+        loadChart()
+    }
+    fun loadChart(){
+        val entries = ArrayList<PieEntry>()
+        val set = PieDataSet(entries,"")
+        val data = PieData(set)
+        entries.add(PieEntry(26.7f, "Yellow"))
+        entries.add(PieEntry(24.0f, "Red"))
+        entries.add(PieEntry(30.8f, "Blue"))
+        chart.data = data
+        chart.description.text=""
+        chart.legend.isEnabled=false
+        chart.animateY(1500, Easing.EaseInOutBack)
+        set.colors.add(Color.YELLOW)
+        set.colors.add(Color.RED)
+        set.colors.add(Color.BLUE)
     }
 }
