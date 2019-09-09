@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="horizontal">
-
     <ImageButton
         android:id="@+id/btnMenu"
         android:layout_width="40dp"
@@ -13,7 +12,6 @@
         android:background="@drawable/ic_menu"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_menu" />
-
     <TextView
         android:id="@+id/action_bar_title"
         android:layout_width="wrap_content"
@@ -25,14 +23,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-condensed-medium" />
-
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center|clip_vertical"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_heart1" />
-
-
-
 </LinearLayout>

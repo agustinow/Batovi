@@ -40,6 +40,7 @@ import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_action_bar.*
+import kotlinx.android.synthetic.main.dialog_difficulty.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             onUserExists()
         }
 
-        this.supportActionBar!!.displayOptions= ActionBar.DISPLAY_SHOW_CUSTOM
+        this.supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setCustomView(R.layout.custom_action_bar)
         supportActionBar!!.elevation=10.0f
@@ -74,35 +75,7 @@ class MainActivity : AppCompatActivity() {
         btnMenu.setOnClickListener{
             drawer.openDrawer()
         }
-    }
 
-    fun askDifficulty(){
-        val dialog = Dialog(this)
-        with(dialog) {
-            setContentView(R.layout.dialog_difficulty)
-            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
-                newProjectDialog(DIFF_JUNIOR)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
-                newProjectDialog(DIFF_NORMAL)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
-                newProjectDialog(DIFF_COMPLEX)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
-                newProjectDialog(DIFF_PRO)
-                dismiss()
-            }
-            show()
-        }
-    }
-
-    fun newProjectDialog(difficulty: Int){
-        model.newProjectDifficulty = difficulty
-        loadFragment(3)
     }
 
     fun newUser(){
@@ -131,7 +104,35 @@ class MainActivity : AppCompatActivity() {
         return gson.fromJson<User>(userJson, User::class.java)
     }
 
+    fun askDifficulty(){
+        val dialog = Dialog(this@MainActivity)
+        with(dialog) {
+            setContentView(R.layout.dialog_difficulty)
+            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
+                newProjectDialog(DIFF_JUNIOR)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
+                newProjectDialog(DIFF_NORMAL)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
+                newProjectDialog(DIFF_COMPLEX)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
+                //newProjectDialog(DIFF_PRO)
+                newProjectDialog(DIFF_PRO)
+                dismiss()
+            }
+            show()
+        }
+    }
 
+    fun newProjectDialog(difficulty: Int){
+        model.newProjectDifficulty = difficulty
+        loadFragment(3)
+    }
 
     fun saveProjects(){
         val projects = App.projects
@@ -172,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                 itemInfo,
                 itemAdd
             )
+            //.withActionBarDrawerToggle()
             .withOnDrawerItemClickListener(object: Drawer.OnDrawerItemClickListener {
                 override fun onItemClick(
                     view: View?,
@@ -190,6 +192,9 @@ class MainActivity : AppCompatActivity() {
 
             })
             .build()
+        main_layout.setOnClickListener {
+            drawer.openDrawer()
+        }
     }
 
     fun loadFragment(frag: Int){
