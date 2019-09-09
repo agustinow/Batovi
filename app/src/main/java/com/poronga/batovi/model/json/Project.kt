@@ -13,7 +13,7 @@ import java.util.*
 *
 */
 
-class User(var id: Int? = null, var name: String?, var xp: Int = 0, image: String? = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/01/bad_luck_brian-e1420582077129.jpeg")
+class User(var id: Int? = null, var name: String?, var lvl: Int = 1, var xp: Int = 0, var image: String? = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/01/bad_luck_brian-e1420582077129.jpeg")
 
 class Project(var id: Int? = null, var name: String? = null, var description: String? = null,//Maybe participants?
               var tags: MutableList<String> = mutableListOf(),
