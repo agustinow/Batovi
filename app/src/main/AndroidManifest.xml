@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.poronga.batovi">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,9 +11,12 @@
         android:icon="@drawable/ic_app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.main.MainActivity"></activity>
-        <activity android:name=".view.ui.load.LoadActivity">
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".view.ui.main.MainActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".view.ui.load.LoadActivity"
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,5 +24,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

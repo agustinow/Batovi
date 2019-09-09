@@ -9,6 +9,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -38,6 +39,7 @@ import com.poronga.batovi.view.ui.main.fragments.MainInfoFragment
 import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_action_bar.*
 import kotlinx.android.synthetic.main.dialog_difficulty.*
 import java.util.*
 import javax.inject.Inject
@@ -65,7 +67,15 @@ class MainActivity : AppCompatActivity() {
             onUserExists()
         }
 
-        //SET ONCLICK LISTENERS
+        this.supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+        supportActionBar!!.setCustomView(R.layout.custom_action_bar)
+        supportActionBar!!.elevation=10.0f
+        val view = supportActionBar!!.customView
+        btnMenu.setOnClickListener{
+            drawer.openDrawer()
+        }
+
     }
 
     fun newUser(){
@@ -163,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                 itemInfo,
                 itemAdd
             )
+            //.withActionBarDrawerToggle()
             .withOnDrawerItemClickListener(object: Drawer.OnDrawerItemClickListener {
                 override fun onItemClick(
                     view: View?,
@@ -181,6 +192,9 @@ class MainActivity : AppCompatActivity() {
 
             })
             .build()
+        main_layout.setOnClickListener {
+            drawer.openDrawer()
+        }
     }
 
     fun loadFragment(frag: Int){
