@@ -48,7 +48,8 @@ class MainHomeFragment : Fragment() {
 
     fun onUserExists(){
         adapter = ProjectAdapter(context!!) {
-            Toast.makeText(context!!, "You clicked on ${it.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!, "${App.currentUser.xp}", Toast.LENGTH_SHORT).show()
+            (activity!! as MainActivity).giveAchievementent(0)
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)

@@ -1,6 +1,8 @@
 package com.poronga.batovi
 
 import android.graphics.Color
+import com.poronga.batovi.model.json.Achievement
+import com.poronga.batovi.viewmodel.main.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 

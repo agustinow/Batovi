@@ -1,6 +1,7 @@
 package com.poronga.batovi.viewmodel.main
 
 import androidx.lifecycle.ViewModel
+import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.Task
 import java.sql.Date
@@ -252,5 +253,55 @@ class MainViewModel: ViewModel() {
             completed = false
         )
     )
+    var achievements: MutableList<Achievement> = mutableListOf(
+        Achievement(
+            id = 0,
+            name = "Newborn",
+            description = "Finish you first project",
+            difficulty = 0,
+            xp = 5,
+            image = ""
+        ),
+        Achievement(
+            id = 1,
+            name = "Task Manager",
+            description = "Complete 5 tasks",
+            difficulty = 0,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 2,
+            name = "Hard Worker",
+            description = "Finish 5 projects",
+            difficulty = 0,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 3,
+            name = "Ill do it later mom",
+            description = "Add 10 or more tasks",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 4,
+            name = "Suicidal developer",
+            description = "Have 5 or more projects at a time ",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 5,
+            name = "Noob",
+            description = "Reach level 2",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        )
 
+    )
 }

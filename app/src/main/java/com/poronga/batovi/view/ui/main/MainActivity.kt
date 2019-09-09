@@ -2,55 +2,36 @@ package com.poronga.batovi.view.ui.main
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
-import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.poronga.batovi.*
+import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
-import com.poronga.batovi.view.adapter.ProjectAdapter
 import com.poronga.batovi.view.ui.main.fragments.MainAboutFragment
 import com.poronga.batovi.view.ui.main.fragments.MainHomeFragment
 import com.poronga.batovi.view.ui.main.fragments.MainInfoFragment
 import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.custom_action_bar.*
-import kotlinx.android.synthetic.main.dialog_difficulty.*
 import kotlinx.android.synthetic.main.drawer_top_menu.view.*
-import kotlinx.android.synthetic.main.element_project.view.*
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var model: MainViewModel
@@ -87,8 +68,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createUser(name: String){
-        val user = User(id = 1, name = name, xp = 66)
+        val user = User(id = 1, name = name, xp = 66, achievement = mutableListOf())
         val userJson = gson.toJson(user)
+        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putString(PREF_USER, userJson)
+            .apply()
+    }
+
+    fun saveUser(){
+        val userJson = gson.toJson(App.currentUser)
         getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit()
             .putString(PREF_USER, userJson)
@@ -165,6 +154,7 @@ class MainActivity : AppCompatActivity() {
 
         val header = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
         val usr = App.currentUser
+
         header.txt_user_name.text = usr.name
         header.txt_level.text = "Level ${usr.lvl}"
         header.txt_user_id.text = "#${usr.id}"
@@ -214,5 +204,11 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         if(addToBackStack) trans.addToBackStack(null)
         trans.commit()
+    }
+
+    fun giveAchievementent(id:Int){
+        App.currentUser.xp += model.achievements[id].xp!!
+        TODO()
+        saveUser()
     }
 }
