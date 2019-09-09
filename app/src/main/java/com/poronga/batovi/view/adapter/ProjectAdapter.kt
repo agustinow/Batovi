@@ -39,7 +39,24 @@ class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val project = differ.currentList[holder.adapterPosition]
 
-        Glide.with(context).load(project.thumbnailURL).into(holder.img)
+        val drawable = when(project.difficulty){
+            1 -> {
+                context.getDrawable(R.drawable.ic_coffe_cup2)
+            }
+            2 -> {
+                context.getDrawable(R.drawable.ic_coffe_cup1)
+            }
+            3 -> {
+                context.getDrawable(R.drawable.ic_coffe_ma3)
+            }
+            4 -> {
+                context.getDrawable(R.drawable.ic_coffe_ma1)
+            }
+            else -> {
+                context.getDrawable(R.drawable.ic_coffe_cup2)
+            }
+        }
+        holder.img.setImageDrawable(drawable)
         holder.name.text = project.name
         holder.date.text = formatDate(project.dateFinish!!)
         holder.layout.setOnClickListener {

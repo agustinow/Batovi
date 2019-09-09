@@ -6,6 +6,7 @@ import com.poronga.batovi.model.json.Task
 import java.sql.Date
 
 class MainViewModel: ViewModel() {
+    var newProjectDifficulty: Int = 0
     var projects: MutableList<Project> = mutableListOf(
         Project(
             id = 1,
@@ -221,7 +222,7 @@ class MainViewModel: ViewModel() {
             dateCreated = Date.valueOf("2018-06-20"),
             dateFinish = Date.valueOf("2018-11-10"),
             thumbnailURL = "https://therockandblues.com/wp-content/uploads/2018/07/tickets.png",
-            difficulty = 3,
+            difficulty = 4,
             completed = true
         ),
         Project(

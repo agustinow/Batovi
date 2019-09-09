@@ -8,6 +8,9 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,15 +26,20 @@ import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
 import com.poronga.batovi.view.adapter.ProjectAdapter
+import com.poronga.batovi.view.ui.main.fragments.MainAboutFragment
+import com.poronga.batovi.view.ui.main.fragments.MainHomeFragment
+import com.poronga.batovi.view.ui.main.fragments.MainInfoFragment
+import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var model: MainViewModel
     @Inject
     lateinit var gson: Gson
-    lateinit var adapter: ProjectAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,38 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         //SET ONCLICK LISTENERS
-        btnNewProject.setOnClickListener {
-            askDifficulty()
-        }
-    }
-
-    fun askDifficulty(){
-        val dialog = Dialog(this)
-        with(dialog) {
-            setContentView(R.layout.dialog_difficulty)
-            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
-                newProjectDialog(1)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
-                newProjectDialog(2)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
-                newProjectDialog(3)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
-                newProjectDialog(4)
-                dismiss()
-            }
-            show()
-        }
-    }
-
-    fun newProjectDialog(difficulty: Int){
-        //SHOWS NEW FULLSCREEN DIALOG TO CREATE PROJECT WITH GIVEN DIFFICULTY
-        Toast.makeText(this@MainActivity, "TODO (New Project Dialog) diff=$difficulty", Toast.LENGTH_SHORT).show()
     }
 
     fun newUser(){
@@ -110,6 +86,36 @@ class MainActivity : AppCompatActivity() {
         return gson.fromJson<User>(userJson, User::class.java)
     }
 
+    fun askDifficulty(){
+        val dialog = Dialog(this@MainActivity)
+        with(dialog) {
+            setContentView(R.layout.dialog_difficulty)
+            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
+                newProjectDialog(DIFF_JUNIOR)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
+                newProjectDialog(DIFF_NORMAL)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
+                newProjectDialog(DIFF_COMPLEX)
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
+                //newProjectDialog(DIFF_PRO)
+                newProjectDialog(DIFF_PRO)
+                dismiss()
+            }
+            show()
+        }
+    }
+
+    fun newProjectDialog(difficulty: Int){
+        model.newProjectDifficulty = difficulty
+        loadFragment(3)
+    }
+
     fun saveProjects(){
         val projects = App.projects
         val projectsJson = gson.toJson(projects)
@@ -129,34 +135,27 @@ class MainActivity : AppCompatActivity() {
 
     fun onUserExists(){
         App.currentUser = getUser()!!
-        Toast.makeText(this@MainActivity, App.currentUser.name, Toast.LENGTH_SHORT).show()
         saveProjects()
-        //FIX !!
         model.projects = getProjects()!!
-        adapter = ProjectAdapter(this@MainActivity) {
-            Toast.makeText(this@MainActivity, "You clicked on ${it.name}", Toast.LENGTH_SHORT).show()
-        }
-        val lm = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-        val decor = DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL)
-        adapter.setItems(model.projects)
-        recycler_projects.layoutManager = lm
-        recycler_projects.addItemDecoration(decor)
-        recycler_projects.adapter = adapter
-        loadChart()
+        loadFragment(0)
     }
-    fun loadChart(){
-        val entries = ArrayList<PieEntry>()
-        val set = PieDataSet(entries,"")
-        val data = PieData(set)
-        entries.add(PieEntry(26.7f, "Yellow"))
-        entries.add(PieEntry(24.0f, "Red"))
-        entries.add(PieEntry(30.8f, "Blue"))
-        chart.data = data
-        chart.description.text=""
-        chart.legend.isEnabled=false
-        chart.animateY(1500, Easing.EaseInOutBack)
-        set.colors.add(Color.YELLOW)
-        set.colors.add(Color.RED)
-        set.colors.add(Color.BLUE)
+
+
+    fun loadFragment(frag: Int){
+        var addToBackStack = false
+        val newFrag = when(frag){
+            0 -> MainHomeFragment.newInstance()
+            1 -> MainAboutFragment.newInstance()
+            2 -> MainInfoFragment.newInstance()
+            else -> {
+                addToBackStack = true
+                MainNewProjectFragment.newInstance()
+            }
+        }
+        val trans = supportFragmentManager.beginTransaction()
+            .replace(ui_content.id, newFrag, newFrag.tag)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        if(addToBackStack) trans.addToBackStack(null)
+        trans.commit()
     }
 }
