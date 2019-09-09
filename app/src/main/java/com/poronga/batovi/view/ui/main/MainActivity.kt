@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
 import android.widget.Toast
@@ -22,6 +23,11 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
@@ -32,6 +38,7 @@ import com.poronga.batovi.view.ui.main.fragments.MainInfoFragment
 import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_difficulty.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -40,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var model: MainViewModel
     @Inject
     lateinit var gson: Gson
+    lateinit var drawer: Drawer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,16 +145,50 @@ class MainActivity : AppCompatActivity() {
         App.currentUser = getUser()!!
         saveProjects()
         model.projects = getProjects()!!
+        loadDrawer()
         loadFragment(0)
     }
 
+    fun loadDrawer(){
+        val itemHome = PrimaryDrawerItem().withIdentifier(0).withName("Home")
+        val itemAbout = PrimaryDrawerItem().withIdentifier(1).withName("Info")
+        val itemInfo = PrimaryDrawerItem().withIdentifier(2).withName("About")
+        val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
+
+        drawer = DrawerBuilder()
+            .withActivity(this@MainActivity)
+            .addDrawerItems(
+                itemHome,
+                itemAbout,
+                itemInfo,
+                itemAdd
+            )
+            .withOnDrawerItemClickListener(object: Drawer.OnDrawerItemClickListener {
+                override fun onItemClick(
+                    view: View?,
+                    position: Int,
+                    drawerItem: IDrawerItem<*>
+                ): Boolean {
+                    //DO STUFF
+                    when(position){
+                        0 -> loadFragment(0)
+                        1 -> loadFragment(1)
+                        2 -> loadFragment(2)
+                        3 -> askDifficulty()
+                    }
+                    return false
+                }
+
+            })
+            .build()
+    }
 
     fun loadFragment(frag: Int){
         var addToBackStack = false
         val newFrag = when(frag){
             0 -> MainHomeFragment.newInstance()
-            1 -> MainAboutFragment.newInstance()
-            2 -> MainInfoFragment.newInstance()
+            1 -> MainInfoFragment.newInstance()
+            2 -> MainAboutFragment.newInstance()
             else -> {
                 addToBackStack = true
                 MainNewProjectFragment.newInstance()
