@@ -37,8 +37,6 @@ class MainAchievementFragment : Fragment() {
         adapter = AchievementAdapter(context!!){
             //click
             (activity!! as MainActivity).giveAchievementent(it.id!!)
-            Toast.makeText(context!!, "${App.currentUser.achievements}", Toast.LENGTH_SHORT).show()
-
 
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)

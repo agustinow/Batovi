@@ -9,10 +9,12 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mikepenz.materialdrawer.Drawer
@@ -204,9 +206,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun giveAchievementent(id:Int){
+
         if(!App.currentUser.achievements.contains(id)){
             giveXp(model.achievements[id].xp)
             App.currentUser.achievements.add(id)
+            Snackbar.make(main_layout,"Achievement Unlocked!",Snackbar.LENGTH_LONG).show()
+
             saveUser()
         }
 
@@ -217,6 +222,8 @@ class MainActivity : AppCompatActivity() {
         if(App.currentUser.xp >= 100){
             App.currentUser.lvl++
             App.currentUser.xp -= 100
+            Snackbar.make(main_layout,"Level Up!",Snackbar.LENGTH_LONG).show()
+
         }
         resetProgressBar()
     }
