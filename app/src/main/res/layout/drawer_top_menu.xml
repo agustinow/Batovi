@@ -53,6 +53,7 @@
         android:progressTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -61,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/progress_user_xp"
         app:layout_constraintEnd_toStartOf="@+id/progress_user_xp"
         tools:text="33 xp" />
@@ -71,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/btn_user_img"
         app:layout_constraintTop_toBottomOf="@+id/btn_user_img"
         tools:text="Level 4" />

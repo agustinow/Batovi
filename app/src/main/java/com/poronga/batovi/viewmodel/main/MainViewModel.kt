@@ -1,6 +1,7 @@
 package com.poronga.batovi.viewmodel.main
 
 import androidx.lifecycle.ViewModel
+import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.Task
@@ -259,80 +260,80 @@ class MainViewModel: ViewModel() {
             name = "Newborn",
             description = "Finish you first project",
             difficulty = 0,
-            xp = 5,
-            image = ""
+            xp = 20,
+            imageID = R.drawable.newborn
         ),
         Achievement(
             id = 1,
             name = "Task Manager",
             description = "Complete 5 tasks",
             difficulty = 0,
-            xp = 2,
-            image = ""
+            xp = 20,
+            imageID = R.drawable.manager
         ),
         Achievement(
             id = 2,
             name = "Hard Worker",
             description = "Finish 5 projects",
             difficulty = 0,
-            xp = 2,
-            image = ""
+            xp = 40,
+            imageID = R.drawable.bronze
         ),
         Achievement(
             id = 3,
             name = "Ill do it later mom",
             description = "Add 10 or more tasks",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 30,
+            imageID = R.drawable.later
         ),
         Achievement(
             id = 4,
             name = "Suicidal developer",
             description = "Have 5 or more projects at a time",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 40,
+            imageID = R.drawable.suicidal
         ),
         Achievement(
             id = 5,
             name = "Noob",
             description = "Reach level 2",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 20,
+            imageID = R.drawable.noob
         ),
         Achievement(
-            id = 7,
+            id = 6,
             name = "I love my job",
             description = "Finish 10 projects",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 60,
+            imageID = R.drawable.silver
+        ),
+        Achievement(
+            id = 7,
+            name = "Task God",
+            description = "Complete 15 tasks",
+            difficulty = 1,
+            xp = 40,
+            imageID = R.drawable.god
         ),
         Achievement(
             id = 8,
-            name = "Ni idea",
-            description = "Complete 15 tasks",
-            difficulty = 1,
-            xp = 2,
-            image = ""
-        ),
-        Achievement(
-            id = 9,
             name = "Impossible project",
             description = "Add 20 or more tasks",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 50,
+            imageID= R.drawable.impossible
         ),
         Achievement(
-            id = 10,
+            id = 9,
             name = "No life Developer",
             description = "Finish 15 projects",
             difficulty = 1,
-            xp = 2,
-            image = ""
+            xp = 80,
+            imageID = R.drawable.gold
         )
 
     )

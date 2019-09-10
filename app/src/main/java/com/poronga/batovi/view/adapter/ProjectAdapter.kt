@@ -70,7 +70,7 @@ class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): Re
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val layout = itemView.findViewById<ConstraintLayout>(R.id.element_project_achievement)
+        val layout = itemView.findViewById<ConstraintLayout>(R.id.element_project)
         val img = itemView.findViewById<ImageView>(R.id.imgProject)!!
         val name = itemView.findViewById<TextView>(R.id.txtProjectName)!!
         val date = itemView.findViewById<TextView>(R.id.txtProjectDate)!!

@@ -2,30 +2,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/element_achievement"
+    android:id="@+id/element_achievement_gray"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/rounded_corners_element">
+    android:background="@drawable/rounded_corners_element_gray">
 
     <TextView
-        android:id="@+id/txtAchName"
+        android:id="@+id/txtAchNameGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="@color/colorBackground"
+        android:textColor="@color/md_blue_grey_800"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imgAchLogo"
+        app:layout_constraintStart_toEndOf="@+id/imgAchLogoGray"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Newborn" />
 
     <ImageView
-        android:id="@+id/imgAchLogo"
+        android:id="@+id/imgAchLogoGray"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -39,28 +39,28 @@
         tools:srcCompat="@drawable/ic_coffe_cup3" />
 
     <TextView
-        android:id="@+id/txtAchDescription"
+        android:id="@+id/txtAchDescriptionGray"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/colorBackground"
+        android:textColor="@color/md_blue_grey_800"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtAchName"
-        app:layout_constraintTop_toBottomOf="@+id/txtAchName"
+        app:layout_constraintStart_toStartOf="@+id/txtAchNameGray"
+        app:layout_constraintTop_toBottomOf="@+id/txtAchNameGray"
         tools:text="Have 5 or more projects at a time" />
 
     <TextView
-        android:id="@+id/txtAchXp"
+        android:id="@+id/txtAchXpGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/colorBackground"
+        android:textColor="@color/md_blue_grey_800"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtAchName"
+        app:layout_constraintTop_toTopOf="@+id/txtAchNameGray"
         tools:text="+30xp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

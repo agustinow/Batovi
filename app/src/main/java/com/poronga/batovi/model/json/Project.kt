@@ -1,5 +1,6 @@
 package com.poronga.batovi.model.json
 
+import android.graphics.drawable.Drawable
 import java.util.*
 /*
 *
@@ -13,7 +14,7 @@ import java.util.*
 *
 */
 
-class User(var id: Int? = null, var name: String?, var lvl: Int = 1, var xp: Int = 0, var image: String? = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/01/bad_luck_brian-e1420582077129.jpeg", var achievement: MutableList<Int>)
+class User(var id: Int? = null, var name: String?, var lvl: Int = 1, var xp: Int = 0, var image: String? = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/01/bad_luck_brian-e1420582077129.jpeg", var achievements: MutableList<Int>)
 
 class Project(var id: Int? = null, var name: String? = null, var description: String? = null,//Maybe participants?
               var tags: MutableList<String> = mutableListOf(),
@@ -28,4 +29,4 @@ class Task(var name: String? = null, var description: String? = null,
            val difficulty: Int? = null
 )
 
-class Achievement(var id:Int? = null, var name:String?, var description: String?, var difficulty: Int?,var xp: Int,var image: String?)
+class Achievement(var id:Int? = null, var name:String?, var description: String?, var difficulty: Int?,var xp: Int,var imageID: Int?)

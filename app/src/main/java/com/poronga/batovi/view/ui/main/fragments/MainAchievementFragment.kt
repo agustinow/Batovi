@@ -1,7 +1,5 @@
 package com.poronga.batovi.view.ui.main.fragments
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,8 +35,11 @@ class MainAchievementFragment : Fragment() {
         model = ViewModelProviders.of(activity!!)[MainViewModel::class.java]
 
         adapter = AchievementAdapter(context!!){
-            Toast.makeText(context!!, "${App.currentUser.xp}", Toast.LENGTH_SHORT).show()
-            (activity!! as MainActivity).giveAchievementent(0)
+            //click
+            (activity!! as MainActivity).giveAchievementent(it.id!!)
+            Toast.makeText(context!!, "${App.currentUser.achievements}", Toast.LENGTH_SHORT).show()
+
+
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)

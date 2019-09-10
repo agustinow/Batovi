@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -22,7 +21,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.poronga.batovi.*
-import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
 import com.poronga.batovi.view.ui.main.fragments.*
@@ -36,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var gson: Gson
     lateinit var drawer: Drawer
+    lateinit var drawerHeader: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createUser(name: String){
-        val user = User(id = 1, name = name, xp = 66, achievement = mutableListOf())
+        val user = User(id = 1, name = name, xp = 0, achievements = mutableListOf())
         val userJson = gson.toJson(user)
         getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit()
@@ -152,15 +151,9 @@ class MainActivity : AppCompatActivity() {
         val itemAchievements= PrimaryDrawerItem().withIdentifier(2).withName("Achievements")
         val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
 
-        val header = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
-        val usr = App.currentUser
-
-        header.txt_user_name.text = usr.name
-        header.txt_level.text = "Level ${usr.lvl}"
-        header.txt_user_id.text = "#${usr.id}"
-        header.txt_user_xp.text = "${usr.xp} xp"
-        header.progress_user_xp.progress = usr.xp
-        Glide.with(this@MainActivity).load(usr.image).into(header.btn_user_img)
+        drawerHeader = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
+        resetProgressBar()
+        Glide.with(this@MainActivity).load(App.currentUser.image).into(drawerHeader.btn_user_img)
             //ONCLICK
 
         drawer = DrawerBuilder()
@@ -172,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 itemAchievements,
                 itemAdd
             )
-            .withHeader(header)
+            .withHeader(drawerHeader)
             .withToolbar(toolbar as Toolbar)
             .withOnDrawerItemClickListener(object: Drawer.OnDrawerItemClickListener {
                 override fun onItemClick(
@@ -211,13 +204,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun giveAchievementent(id:Int){
-        giveXp(model.achievements[id].xp)
-        App.currentUser.achievement.add(id)
-        saveUser()
+        if(!App.currentUser.achievements.contains(id)){
+            giveXp(model.achievements[id].xp)
+            App.currentUser.achievements.add(id)
+            saveUser()
+        }
+
     }
 
     fun giveXp(value:Int){
         App.currentUser.xp += value
+        if(App.currentUser.xp >= 100){
+            App.currentUser.lvl++
+            App.currentUser.xp -= 100
+        }
+        resetProgressBar()
+    }
+
+    fun resetProgressBar(){
+        val usr = App.currentUser
+        drawerHeader.txt_user_name.text = usr.name
+        drawerHeader.txt_level.text = "Level ${usr.lvl}"
+        drawerHeader.txt_user_id.text = "#${usr.id}"
+        drawerHeader.txt_user_xp.text = "${usr.xp} xp"
+        drawerHeader.progress_user_xp.progress = usr.xp
     }
 
 }
