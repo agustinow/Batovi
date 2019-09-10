@@ -289,7 +289,7 @@ class MainViewModel: ViewModel() {
         Achievement(
             id = 4,
             name = "Suicidal developer",
-            description = "Have 5 or more projects at a time ",
+            description = "Have 5 or more projects at a time",
             difficulty = 1,
             xp = 2,
             image = ""
@@ -298,6 +298,38 @@ class MainViewModel: ViewModel() {
             id = 5,
             name = "Noob",
             description = "Reach level 2",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 7,
+            name = "I love my job",
+            description = "Finish 10 projects",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 8,
+            name = "Ni idea",
+            description = "Complete 15 tasks",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 9,
+            name = "Impossible project",
+            description = "Add 20 or more tasks",
+            difficulty = 1,
+            xp = 2,
+            image = ""
+        ),
+        Achievement(
+            id = 10,
+            name = "No life Developer",
+            description = "Finish 15 projects",
             difficulty = 1,
             xp = 2,
             image = ""

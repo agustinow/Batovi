@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.poronga.batovi.R
 import com.poronga.batovi.formatDate
 import com.poronga.batovi.model.json.Project
@@ -71,7 +70,7 @@ class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): Re
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val layout = itemView.findViewById<ConstraintLayout>(R.id.element_project)
+        val layout = itemView.findViewById<ConstraintLayout>(R.id.element_project_achievement)
         val img = itemView.findViewById<ImageView>(R.id.imgProject)!!
         val name = itemView.findViewById<TextView>(R.id.txtProjectName)!!
         val date = itemView.findViewById<TextView>(R.id.txtProjectDate)!!

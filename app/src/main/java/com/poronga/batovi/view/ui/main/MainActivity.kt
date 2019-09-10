@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -24,10 +25,7 @@ import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
-import com.poronga.batovi.view.ui.main.fragments.MainAboutFragment
-import com.poronga.batovi.view.ui.main.fragments.MainHomeFragment
-import com.poronga.batovi.view.ui.main.fragments.MainInfoFragment
-import com.poronga.batovi.view.ui.main.fragments.MainNewProjectFragment
+import com.poronga.batovi.view.ui.main.fragments.*
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_top_menu.view.*
@@ -56,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
     fun newUser(){
         MaterialDialog(this@MainActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
             input(hint = "What's your name?", maxLength = 20, allowEmpty = false) { dialog, text ->
@@ -83,6 +80,8 @@ class MainActivity : AppCompatActivity() {
             .putString(PREF_USER, userJson)
             .apply()
     }
+
+
 
     fun getUser(): User?{
         val userJson = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -150,6 +149,7 @@ class MainActivity : AppCompatActivity() {
         val itemHome = PrimaryDrawerItem().withIdentifier(0).withName("Home")
         val itemAbout = PrimaryDrawerItem().withIdentifier(1).withName("Info")
         val itemInfo = PrimaryDrawerItem().withIdentifier(2).withName("About")
+        val itemAchievements= PrimaryDrawerItem().withIdentifier(2).withName("Achievements")
         val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
 
         val header = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
@@ -169,6 +169,7 @@ class MainActivity : AppCompatActivity() {
                 itemHome,
                 itemAbout,
                 itemInfo,
+                itemAchievements,
                 itemAdd
             )
             .withHeader(header)
@@ -180,12 +181,14 @@ class MainActivity : AppCompatActivity() {
                     drawerItem: IDrawerItem<*>
                 ): Boolean {
                     //DO STUFF
-                    if(position == 4) askDifficulty()
+                    if(position == 5) askDifficulty()
                     else loadFragment(position)
                 return false
                 }
             })
             .build()
+
+
     }
 
     fun loadFragment(frag: Int){
@@ -194,6 +197,7 @@ class MainActivity : AppCompatActivity() {
             1 -> MainHomeFragment.newInstance()
             2 -> MainInfoFragment.newInstance()
             3 -> MainAboutFragment.newInstance()
+            4 -> MainAchievementFragment.newInstance()
             else -> {
                 addToBackStack = true
                 MainNewProjectFragment.newInstance()
@@ -207,8 +211,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun giveAchievementent(id:Int){
-        App.currentUser.xp += model.achievements[id].xp!!
-        TODO()
+        giveXp(model.achievements[id].xp)
+        App.currentUser.achievement.add(id)
         saveUser()
     }
+
+    fun giveXp(value:Int){
+        App.currentUser.xp += value
+    }
+
 }

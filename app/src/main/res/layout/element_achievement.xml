@@ -4,51 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/element_project_achievement"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="100dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     android:background="@drawable/rounded_corners_element">
 
-    <ImageView
-        android:id="@+id/imgProject"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_coffe_cup1" />
-
     <TextView
-        android:id="@+id/txtProjectName"
+        android:id="@+id/txtAchName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:textColor="@color/colorBackground"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgProject"
-        app:layout_constraintStart_toEndOf="@+id/imgProject"
-        app:layout_constraintTop_toTopOf="@+id/imgProject"
-        tools:text="Bacchus" />
+        app:layout_constraintStart_toEndOf="@+id/txtAchLogo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Newborn" />
 
-    <TextView
-        android:id="@+id/txtProjectDate"
+    <ImageView
+        android:id="@+id/txtAchLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_coffe_cup3" />
+
+    <TextView
+        android:id="@+id/txtAchDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorBackground"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtAchName"
+        app:layout_constraintTop_toBottomOf="@+id/txtAchName"
+        tools:text="Have 5 or more projects at a time" />
+
+    <TextView
+        android:id="@+id/txtAchXp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif-medium"
-        android:text="06/07/2019"
+        android:text="+30"
         android:textColor="@color/colorBackground"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="@+id/txtAchName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
