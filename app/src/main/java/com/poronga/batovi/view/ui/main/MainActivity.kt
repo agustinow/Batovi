@@ -1,13 +1,19 @@
 package com.poronga.batovi.view.ui.main
 
 import android.app.Dialog
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
@@ -25,6 +31,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
+import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.ui.main.fragments.*
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,6 +42,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var model: MainViewModel
     @Inject
     lateinit var gson: Gson
+    @Inject
+    lateinit var userManager: UserManager
+    var isBound = false
     lateinit var drawer: Drawer
     lateinit var drawerHeader: View
 
@@ -43,11 +53,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //LOAD VIEW MODEL
         model = ViewModelProviders.of(this@MainActivity)[MainViewModel::class.java]
-        App.projects = model.projects
+        App.projects = sampleProjects.toMutableList()
         //INJECT
         App.injector.inject(this@MainActivity)
+        userManager.onXPChanged = {
+            resetProgressBar()
+            if(it){
+                Snackbar.make(main_layout, "Level up!", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(getColor(R.color.colorPrimary))
+                    .setTextColor(Color.WHITE)
+                    .show()
+            }
+        }
+        userManager.onAchievementGiven = {
+            Snackbar.make(main_layout, "Achievement $it unlocked!", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(getColor(R.color.colorPrimary))
+                .setTextColor(Color.WHITE)
+                .show()
+        }
         //CHECK IF USER IS FOUND, IF NOT, ASK.
-        if (getUser() == null){
+        if (userManager.getUser() == null){
             //Create user
             newUser()
         } else {
@@ -58,37 +83,11 @@ class MainActivity : AppCompatActivity() {
     fun newUser(){
         MaterialDialog(this@MainActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
             input(hint = "What's your name?", maxLength = 20, allowEmpty = false) { dialog, text ->
-                createUser(text.toString())
+                userManager.createUser(text.toString(), null)
                 onUserExists()
                 dialog.dismiss()
             }
         }
-    }
-
-    fun createUser(name: String){
-        val user = User(id = 1, name = name, xp = 0, achievements = mutableListOf())
-        val userJson = gson.toJson(user)
-        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(PREF_USER, userJson)
-            .apply()
-    }
-
-    fun saveUser(){
-        val userJson = gson.toJson(App.currentUser)
-        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(PREF_USER, userJson)
-            .apply()
-    }
-
-
-
-    fun getUser(): User?{
-        val userJson = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .getString(PREF_USER, null)
-        if(userJson.isNullOrEmpty()) return null
-        return gson.fromJson<User>(userJson, User::class.java)
     }
 
     fun askDifficulty(){
@@ -121,27 +120,13 @@ class MainActivity : AppCompatActivity() {
         loadFragment(4)
     }
 
-    fun saveProjects(){
-        val projects = App.projects
-        val projectsJson = gson.toJson(projects)
-        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(PREF_PROJECTS, projectsJson)
-            .apply()
-    }
-
-    fun getProjects(): MutableList<Project>?{
-        val projectsJson = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .getString(PREF_PROJECTS, null)
-        if(projectsJson.isNullOrEmpty()) return null
-        val projectsType = object : TypeToken<MutableList<Project>>() {}.type
-        return gson.fromJson(projectsJson, projectsType)
-    }
-
     fun onUserExists(){
-        App.currentUser = getUser()!!
-        saveProjects()
-        model.projects = getProjects()!!
+        App.currentUser = userManager.getUser()!!
+
+        //LOAD SAMPLE DATA
+        App.projects = sampleProjects.toMutableList()
+
+        userManager.saveProjects()
         loadDrawer()
         loadFragment(1)
     }
@@ -203,29 +188,6 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         if(addToBackStack) trans.addToBackStack(null)
         trans.commit()
-    }
-
-    fun giveAchievementent(id:Int){
-
-        if(!App.currentUser.achievements.contains(id)){
-            giveXp(model.achievements[id].xp)
-            App.currentUser.achievements.add(id)
-            Snackbar.make(main_layout,"Achievement Unlocked!",Snackbar.LENGTH_LONG).show()
-
-            saveUser()
-        }
-
-    }
-
-    fun giveXp(value:Int){
-        App.currentUser.xp += value
-        if(App.currentUser.xp >= 100){
-            App.currentUser.lvl++
-            App.currentUser.xp -= 100
-            Snackbar.make(main_layout,"Level Up!",Snackbar.LENGTH_LONG).show()
-
-        }
-        resetProgressBar()
     }
 
     fun resetProgressBar(){

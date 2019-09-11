@@ -24,10 +24,6 @@ class LoadActivityTest {
             .create()
             .resume()
             .get()
-
-            val ac = ActivityController.of(subject)
-
-
     }
 
     @Test
@@ -36,5 +32,17 @@ class LoadActivityTest {
         val expectedIntent = Intent(subject, MainActivity::class.java)
         val actual = Shadows.shadowOf(subject).nextStartedActivity
         assertThat(expectedIntent.component).isEqualTo(actual.component)
+    }
+
+    fun testFragmentSwap() {
+
+    }
+
+    fun testUserCreate() {
+
+    }
+
+    fun testGetUser() {
+
     }
 }

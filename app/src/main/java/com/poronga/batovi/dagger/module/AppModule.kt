@@ -2,6 +2,7 @@ package com.poronga.batovi.dagger.module
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.poronga.batovi.services.UserManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -15,4 +16,11 @@ open class AppModule {
             .setDateFormat("dd/MM/yyyy")
             .create()
     }
+    @Singleton
+    @Provides
+    fun getUserManager() = UserManager({
+
+    },{
+
+    })
 }

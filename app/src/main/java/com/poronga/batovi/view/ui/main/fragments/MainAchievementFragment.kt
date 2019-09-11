@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.poronga.batovi.App
 
 import com.poronga.batovi.R
+import com.poronga.batovi.baseAchievements
 import com.poronga.batovi.view.adapter.AchievementAdapter
 import com.poronga.batovi.view.ui.main.MainActivity
 import com.poronga.batovi.viewmodel.main.MainViewModel
@@ -36,15 +37,15 @@ class MainAchievementFragment : Fragment() {
 
         adapter = AchievementAdapter(context!!){
             //click
-            (activity!! as MainActivity).giveAchievementent(it.id!!)
+            (activity!! as MainActivity).userManager.giveAchievementent(it.id!!)
 
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
-        adapter.setItems(model.achievements)
-        recyclerAchievement.layoutManager=lm
+        adapter.setItems(baseAchievements.toMutableList())
+        recyclerAchievement.layoutManager = lm
         recyclerAchievement.addItemDecoration(decor)
-        recyclerAchievement.adapter=adapter
+        recyclerAchievement.adapter = adapter
 
     }
 

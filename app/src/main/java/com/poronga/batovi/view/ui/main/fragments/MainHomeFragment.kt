@@ -52,7 +52,7 @@ class MainHomeFragment : Fragment() {
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
-        adapter.setItems(model.projects)
+        adapter.setItems(App.projects)
         recycler_projects.layoutManager = lm
         recycler_projects.addItemDecoration(decor)
         recycler_projects.adapter = adapter
