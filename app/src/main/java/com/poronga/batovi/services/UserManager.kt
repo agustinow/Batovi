@@ -69,8 +69,8 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     }
 
     fun giveAchievementent(id:Int){
-        if(!App.currentUser.achievements.contains(id)){
-            App.currentUser.achievements.add(id)
+        if(!App.currentUser!!.achievements.contains(id)){
+            App.currentUser!!.achievements.add(id)
             onAchievementGiven(baseAchievements[id].name!!)
             giveXp(baseAchievements[id].xp)
             saveUser()
@@ -78,10 +78,10 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     }
 
     fun giveXp(value:Int){
-        App.currentUser.xp += value
-        if(App.currentUser.xp >= 100){
-            App.currentUser.lvl++
-            App.currentUser.xp -= 100
+        App.currentUser!!.xp += value
+        if(App.currentUser!!.xp >= 100){
+            App.currentUser!!.lvl++
+            App.currentUser!!.xp -= 100
             onXPChanged(true)
         } else onXPChanged(false)
     }

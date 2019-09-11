@@ -34,7 +34,7 @@ class AchievementAdapter(val context: Context, val onClick: (Achievement) -> (Un
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(App.currentUser.achievements.contains(differ.currentList[position].id)) 1
+        return if(App.currentUser!!.achievements.contains(differ.currentList[position].id)) 1
         else 0
     }
 

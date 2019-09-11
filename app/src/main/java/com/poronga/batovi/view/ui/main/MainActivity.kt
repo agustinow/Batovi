@@ -39,12 +39,12 @@ import kotlinx.android.synthetic.main.drawer_top_menu.view.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var model: MainViewModel
     @Inject
     lateinit var gson: Gson
     @Inject
     lateinit var userManager: UserManager
-    var isBound = false
     lateinit var drawer: Drawer
     lateinit var drawerHeader: View
 
@@ -72,10 +72,9 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
         //CHECK IF USER IS FOUND, IF NOT, ASK.
-        if (userManager.getUser() == null){
-            //Create user
+        if(App.currentUser == null) {
             newUser()
-        } else {
+        } else{
             onUserExists()
         }
 
@@ -84,6 +83,9 @@ class MainActivity : AppCompatActivity() {
         MaterialDialog(this@MainActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
             input(hint = "What's your name?", maxLength = 20, allowEmpty = false) { dialog, text ->
                 userManager.createUser(text.toString(), null)
+                App.currentUser = userManager.getUser()!!
+                App.projects = sampleProjects.toMutableList()
+                userManager.saveProjects()
                 onUserExists()
                 dialog.dismiss()
             }
@@ -121,14 +123,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onUserExists(){
-        App.currentUser = userManager.getUser()!!
-
         //LOAD SAMPLE DATA
-        App.projects = sampleProjects.toMutableList()
-
-        userManager.saveProjects()
         loadDrawer()
-        loadFragment(1)
+        loadFragment(model.selectedFrag)
     }
 
     fun loadDrawer(){
@@ -140,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
         drawerHeader = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
         resetProgressBar()
-        Glide.with(this@MainActivity).load(App.currentUser.image).into(drawerHeader.btn_user_img)
+        Glide.with(this@MainActivity).load(App.currentUser!!.image).into(drawerHeader.btn_user_img)
             //ONCLICK
 
         drawer = DrawerBuilder()
@@ -183,6 +180,7 @@ class MainActivity : AppCompatActivity() {
                 MainNewProjectFragment.newInstance()
             }
         }
+        model.selectedFrag = frag
         val trans = supportFragmentManager.beginTransaction()
             .replace(ui_content.id, newFrag, newFrag.tag)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -191,7 +189,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun resetProgressBar(){
-        val usr = App.currentUser
+        val usr = App.currentUser!!
         drawerHeader.txt_user_name.text = usr.name
         drawerHeader.txt_level.text = "Level ${usr.lvl}"
         drawerHeader.txt_user_id.text = "#${usr.id}"
