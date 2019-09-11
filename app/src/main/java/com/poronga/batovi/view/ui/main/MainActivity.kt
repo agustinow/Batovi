@@ -36,10 +36,10 @@ import com.poronga.batovi.view.ui.main.fragments.*
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_top_menu.view.*
+import kotlinx.android.synthetic.main.fragment_main_home.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
     lateinit var model: MainViewModel
     @Inject
     lateinit var gson: Gson
@@ -109,7 +109,6 @@ class MainActivity : AppCompatActivity() {
                 dismiss()
             }
             findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
-                //newProjectDialog(DIFF_PRO)
                 newProjectDialog(DIFF_PRO)
                 dismiss()
             }
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     fun newProjectDialog(difficulty: Int){
         model.newProjectDifficulty = difficulty
-        loadFragment(4)
+        loadFragment(5)
     }
 
     fun onUserExists(){
@@ -175,12 +174,17 @@ class MainActivity : AppCompatActivity() {
             2 -> MainInfoFragment.newInstance()
             3 -> MainAboutFragment.newInstance()
             4 -> MainAchievementFragment.newInstance()
+            5 -> MainCreateProject.newInstance()
             else -> {
                 addToBackStack = true
                 MainNewProjectFragment.newInstance()
             }
         }
         model.selectedFrag = frag
+        if(frag == 5){
+            (newFrag as MainCreateProject).show(supportFragmentManager, newFrag.tag)
+            return@loadFragment
+        }
         val trans = supportFragmentManager.beginTransaction()
             .replace(ui_content.id, newFrag, newFrag.tag)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
