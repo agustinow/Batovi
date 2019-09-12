@@ -44,6 +44,7 @@ class MainHomeFragment : Fragment() {
             (activity!! as MainActivity).askDifficulty()
         }
         onUserExists()
+
     }
 
     fun onUserExists(){

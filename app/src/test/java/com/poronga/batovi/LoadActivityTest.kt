@@ -2,6 +2,7 @@ package com.poronga.batovi
 
 import android.content.Intent
 import com.google.common.truth.Truth.assertThat
+
 import com.poronga.batovi.view.ui.load.LoadActivity
 import com.poronga.batovi.view.ui.main.MainActivity
 import org.junit.Before
@@ -34,15 +35,5 @@ class LoadActivityTest {
         assertThat(expectedIntent.component).isEqualTo(actual.component)
     }
 
-    fun testFragmentSwap() {
 
-    }
-
-    fun testUserCreate() {
-
-    }
-
-    fun testGetUser() {
-
-    }
 }

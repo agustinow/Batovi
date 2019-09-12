@@ -7,15 +7,19 @@ import com.poronga.batovi.dagger.component.AppComponent
 import com.poronga.batovi.dagger.component.DaggerAppComponent
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
-import com.poronga.batovi.services.UserManager
 
-open class App: Application() {
+open class TestApp: App() {
     override fun onCreate() {
         instance = this
-        injector = DaggerAppComponent.builder().application(this@App).build()
-        val gsonUser = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .getString(PREF_USER, null)
-        if(gsonUser != null) currentUser = Gson().fromJson(gsonUser, User::class.java)
+        injector = DaggerAppComponent.builder().application(this@TestApp).build()
+        currentUser = User(
+            id = 1,
+            name = "Testman",
+            lvl = 4,
+            xp = 47,
+            image = "",
+            achievements = mutableListOf(1, 4, 7)
+        )
         super.onCreate()
     }
 
@@ -23,6 +27,6 @@ open class App: Application() {
         lateinit var instance: App
         lateinit var injector: AppComponent
         var currentUser: User? = null
-        lateinit var projects: MutableList<Project>
+        var projects: MutableList<Project> = sampleProjects.toMutableList()
     }
 }
