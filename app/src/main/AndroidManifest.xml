@@ -15,6 +15,7 @@
         <activity android:name=".view.ui.main.MainActivity"
             android:theme="@style/AppThemeNoActionBar">
         </activity>
+
         <activity android:name=".view.ui.load.LoadActivity"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
