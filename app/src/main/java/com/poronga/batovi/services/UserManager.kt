@@ -2,8 +2,10 @@ package com.poronga.batovi.services
 
 import android.app.Service
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
@@ -15,6 +17,8 @@ import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.User
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
+import java.io.FileOutputStream
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
@@ -84,6 +88,14 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
             App.currentUser!!.xp -= 100
             onXPChanged(true)
         } else onXPChanged(false)
+    }
+
+    fun saveImageToStorage(image: Bitmap, userID: Int): String{
+        val directory: File = ContextWrapper(App.instance.applicationContext).getDir("imageDir", Context.MODE_PRIVATE)
+        val path = File(directory, "user_$userID.jpg")
+        val fos = FileOutputStream(path)
+        image.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        return directory.absolutePath
     }
 }
 
