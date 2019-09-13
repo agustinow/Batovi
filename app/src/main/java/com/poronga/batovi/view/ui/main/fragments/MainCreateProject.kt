@@ -9,9 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import android.content.ContentValues.TAG
+import android.content.res.Resources
 import android.widget.Toolbar
+import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.chip.Chip
 import com.poronga.batovi.R
+import kotlinx.android.synthetic.main.fragment_main_create_project.*
+import kotlinx.android.synthetic.main.fragment_main_create_project.view.*
 
 
 class MainCreateProject : DialogFragment() {
@@ -32,7 +37,28 @@ class MainCreateProject : DialogFragment() {
         toolbar.setNavigationOnClickListener{
             dismiss()
         }
-        toolbar.setTitle("Titulo")
+        chipgroup.setChipSpacingVerticalResource(R.dimen.chip_spacing)
+        toolbar.title = "New Project"
+        toolbar.setTitleTextColor(resources.getColor(R.color.colorBackground, resources.newTheme()))
+        btnAddTag.setOnClickListener {
+            if(!txtProjectTags.text.isNullOrEmpty()){
+                val chip = Chip(context)
+                chip.setPadding(8)
+                chip.text=txtProjectTags.text
+                chip.setCloseIconResource(R.drawable.ic_close24dp)
+                chip.isCloseIconVisible=true
+                chipgroup.addView(chip)
+                txtProjectTags.text!!.clear()
+                chip.setOnClickListener {
+                    chipgroup.removeView(chip)
+                }
+            }else{
+                txtProjectTags.error = "Tag is empty!"
+            }
+
+        }
+
+
 
     }
 
@@ -47,7 +73,7 @@ class MainCreateProject : DialogFragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL,R.style.AppTheme)
+        setStyle(STYLE_NORMAL,R.style.AppTheme)
     }
 
 

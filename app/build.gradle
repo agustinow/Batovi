@@ -63,6 +63,7 @@ dependencies {
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'com.google.truth:truth:1.0'
     testImplementation 'com.google.truth.extensions:truth-java8-extension:1.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.0-alpha03'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:monitor:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

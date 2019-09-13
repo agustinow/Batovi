@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                 dismiss()
             }
             findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
-                newProjectDialog(DIFF_PRO)
+                  newProjectDialog(DIFF_PRO)
                 dismiss()
             }
             show()
