@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MyCoffee</string>
+    <string name="pic_from_gallery">Choose picture from gallery</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

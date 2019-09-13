@@ -1,5 +1,6 @@
 package com.poronga.batovi.view.ui.main
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.ComponentName
 import android.content.Context
@@ -20,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -138,9 +140,9 @@ class MainActivity : AppCompatActivity() {
         val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
 
         drawerHeader = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
-        resetProgressBar()
-        Glide.with(this@MainActivity).load(App.currentUser!!.image).into(drawerHeader.btn_user_img)
-            //ONCLICK
+        drawerHeader.btn_user_img.setOnClickListener {
+            this@MainActivity.showChangeImageDialog()
+        }
 
         drawer = DrawerBuilder()
             .withActivity(this@MainActivity)
@@ -167,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             })
             .build()
 
-
+        resetProgressBar()
     }
 
     fun loadFragment(frag: Int){
@@ -197,10 +199,50 @@ class MainActivity : AppCompatActivity() {
 
     fun resetProgressBar(){
         val usr = App.currentUser!!
-        drawerHeader.txt_user_name.text = usr.name
-        drawerHeader.txt_level.text = "Level ${usr.lvl}"
-        drawerHeader.txt_user_id.text = "#${usr.id}"
-        drawerHeader.txt_user_xp.text = "${usr.xp} xp"
-        drawerHeader.progress_user_xp.progress = usr.xp
+        drawer.header!!.txt_user_name.text = usr.name
+        drawer.header!!.txt_level.text = "Level ${usr.lvl}"
+        drawer.header!!.txt_user_id.text = "#${usr.id}"
+        drawer.header!!.txt_user_xp.text = "${usr.xp} xp"
+        drawer.header!!.progress_user_xp.progress = usr.xp
+        Glide.with(this@MainActivity).load(App.currentUser!!.image).placeholder(R.drawable.ic_heart1).into(drawer.header!!.btn_user_img)
+    }
+
+    fun showChangeImageDialog() {
+        MaterialDialog(this@MainActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
+            listItems(R.array.image_select_array) { dialog, index, text ->
+                when(index){
+                    0 -> {
+                        this@MainActivity.chooseFromGallery()
+                        dismiss()
+                    }
+                    else -> {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    fun chooseFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        val types = listOf("image/jpeg", "image/png")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, types.toTypedArray())
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                GALLERY_REQUEST_CODE -> {
+                    val image = data!!.data
+                    App.currentUser!!.image = image.toString()
+                    userManager.saveUser()
+                    resetProgressBar()
+                    //drawerHeader.btn_user_img.setImageURI(image)
+                }
+            }
+        }
     }
 }
