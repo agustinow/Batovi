@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var gson: Gson
     @Inject
     lateinit var userManager: UserManager
+
     lateinit var drawer: Drawer
     lateinit var drawerHeader: View
 
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity() {
     fun askDifficulty(){
         val dialog = Dialog(this@MainActivity)
         with(dialog) {
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             setContentView(R.layout.dialog_difficulty)
             findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
                 newProjectDialog(DIFF_JUNIOR)
@@ -200,5 +203,4 @@ class MainActivity : AppCompatActivity() {
         drawerHeader.txt_user_xp.text = "${usr.xp} xp"
         drawerHeader.progress_user_xp.progress = usr.xp
     }
-
 }
