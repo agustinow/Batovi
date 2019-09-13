@@ -96,35 +96,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun askDifficulty(){
-        val dialog = Dialog(this@MainActivity)
-        with(dialog) {
-            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            setContentView(R.layout.dialog_difficulty)
-            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
-                newProjectDialog(DIFF_JUNIOR)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
-                newProjectDialog(DIFF_NORMAL)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
-                newProjectDialog(DIFF_COMPLEX)
-                dismiss()
-            }
-            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
-                  newProjectDialog(DIFF_PRO)
-                dismiss()
-            }
-            show()
-        }
-    }
 
-    fun newProjectDialog(difficulty: Int){
-        model.newProjectDifficulty = difficulty
-        loadFragment(5)
-    }
+
+
 
     fun onUserExists(){
         //LOAD SAMPLE DATA
@@ -162,8 +136,7 @@ class MainActivity : AppCompatActivity() {
                     drawerItem: IDrawerItem<*>
                 ): Boolean {
                     //DO STUFF
-                    if(position == 5) askDifficulty()
-                    else loadFragment(position)
+                     loadFragment(position)
                 return false
                 }
             })

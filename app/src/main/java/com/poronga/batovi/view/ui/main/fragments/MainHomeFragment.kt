@@ -41,7 +41,7 @@ class MainHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[MainViewModel::class.java]
         btnNewProject.setOnClickListener {
-            (activity!! as MainActivity).askDifficulty()
+            (activity as MainActivity).loadFragment(5)
         }
         onUserExists()
 

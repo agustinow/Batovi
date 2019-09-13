@@ -1,26 +1,35 @@
 package com.poronga.batovi.view.ui.main.fragments
 
-import android.content.Context
-import android.net.Uri
+import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import android.content.ContentValues.TAG
-import android.content.res.Resources
-import android.widget.Toolbar
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.widget.ImageButton
 import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.chip.Chip
-import com.poronga.batovi.R
+import com.poronga.batovi.*
+import com.poronga.batovi.view.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
-import kotlinx.android.synthetic.main.fragment_main_create_project.view.*
+import java.util.*
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainCreateProject : DialogFragment() {
 
+
+class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        //dostuff
+    }
+
+    var chosenDifficulty: Int = 0
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreateView(
@@ -37,29 +46,66 @@ class MainCreateProject : DialogFragment() {
         toolbar.setNavigationOnClickListener{
             dismiss()
         }
-        chipgroup.setChipSpacingVerticalResource(R.dimen.chip_spacing)
+        txtProjectDescriptionLayout.requestFocus()
+        //txtProjectNameLayout.requestFocus()
+        chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
+        chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         toolbar.title = "New Project"
         toolbar.setTitleTextColor(resources.getColor(R.color.colorBackground, resources.newTheme()))
         btnAddTag.setOnClickListener {
-            if(!txtProjectTags.text.isNullOrEmpty()){
+            if (!txtProjectTags.text.isNullOrEmpty()) {
                 val chip = Chip(context)
                 chip.setPadding(8)
-                chip.text=txtProjectTags.text
+                chip.text = txtProjectTags.text
                 chip.setCloseIconResource(R.drawable.ic_close24dp)
-                chip.isCloseIconVisible=true
-                chipgroup.addView(chip)
+                chip.isCloseIconVisible = true
+                chipgroupTag.addView(chip)
                 txtProjectTags.text!!.clear()
-                chip.setOnClickListener {
-                    chipgroup.removeView(chip)
+                chip.setOnCloseIconClickListener {
+                    chipgroupTag.removeView(chip)
                 }
-            }else{
+            } else {
                 txtProjectTags.error = "Tag is empty!"
             }
-
+        }
+        btnAddLanguages.setOnClickListener {
+            if(!txtProjectLanguages.text.isNullOrEmpty()){
+                val chip = Chip(context)
+                chip.setPadding(8)
+                chip.text=txtProjectLanguages.text
+                chip.setCloseIconResource(R.drawable.ic_close24dp)
+                chip.isCloseIconVisible=true
+                chipgroupLanguages.addView(chip)
+                txtProjectLanguages.text!!.clear()
+                chip.setOnCloseIconClickListener{
+                chipgroupLanguages.removeView(chip)
+                }
+            }else{
+                txtProjectLanguages.error= "Language is empty!"
+            }
+        }
+        btnSelectDifficulty.setOnClickListener {
+            askDifficulty()
+        }
+        btnAddTime.setOnClickListener {
+            val now = Calendar.getInstance()
+            val dpd = DatePickerDialog.newInstance(
+                this@MainCreateProject,
+                now.get(Calendar.YEAR), // Initial year selection
+                now.get(Calendar.MONTH), // Initial month selection
+                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+            )
+            dpd.show(fragmentManager!!,"Datepickerdialog")
         }
 
-
-
+        btnCreateProject.setOnClickListener {
+            txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
+                 "Project Name is empty!"
+            } else null
+            txtProjectDescription.error = if(txtProjectDescription.text.isNullOrEmpty()){
+                "Project Description is empty!"
+            } else null
+        }
     }
 
     override fun onStart() {
@@ -76,6 +122,38 @@ class MainCreateProject : DialogFragment() {
         setStyle(STYLE_NORMAL,R.style.AppTheme)
     }
 
+    fun askDifficulty(){
+        val dialog = Dialog(context!!)
+        with(dialog) {
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.dialog_difficulty)
+            findViewById<ImageButton>(R.id.imgBtnJunior).setOnClickListener {
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_cup2, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Junior"
+                chosenDifficulty = DIFF_JUNIOR
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnNormal).setOnClickListener {
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_cup1, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Normal"
+                chosenDifficulty = DIFF_NORMAL
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_ma3, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text=" Complex"
+                chosenDifficulty = DIFF_COMPLEX
+                dismiss()
+            }
+            findViewById<ImageButton>(R.id.imgBtnProfesional).setOnClickListener {
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_ma1, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Professional"
+                chosenDifficulty = DIFF_PRO
+                dismiss()
+            }
+            show()
+        }
+    }
 
 
     companion object {
