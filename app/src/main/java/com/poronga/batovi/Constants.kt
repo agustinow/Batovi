@@ -128,7 +128,6 @@ val baseAchievements: List<Achievement> = listOf(
 //SAMPLE PROJECTS
 val sampleProjects: List<Project> = listOf(
     Project(
-        id = 1,
         name = "Bacchus",
         description = "Application for a wine store made with Kotlin for Android",
         tags = mutableListOf("android", "wine", "shop", ".net", "fullstack", "mongodb"),
@@ -166,7 +165,6 @@ val sampleProjects: List<Project> = listOf(
         completed = false
     ),
     Project(
-        id = 2,
         name = "VetApp",
         description = "Multiplatform application for veterinarians (iOS and Android)",
         tags = mutableListOf("android", "ios", "pets", ".net", "fullstack", "veterinarian", "mongodb"),
@@ -204,7 +202,6 @@ val sampleProjects: List<Project> = listOf(
         completed = false
     ),
     Project(
-        id = 1,
         name = "MyCoffee",
         description = "this@MyCoffee xDXdXDxdXD",
         tags = mutableListOf("android", "coffee", "portfolio", "brown"),
@@ -230,7 +227,6 @@ val sampleProjects: List<Project> = listOf(
         completed = false
     ),
     Project(
-        id = 1,
         name = "Pokedex",
         description = "Multiplatform application that obtains the data from PokeAPI.",
         tags = mutableListOf("android", "swift", "pokemon", "api", "games"),
@@ -268,7 +264,6 @@ val sampleProjects: List<Project> = listOf(
         completed = true
     ),
     Project(
-        id = 1,
         name = "Transformers Blog",
         description = "Blog about the Transformers",
         tags = mutableListOf("meme", "web", "webapp", "transformers", "angular"),
@@ -306,7 +301,6 @@ val sampleProjects: List<Project> = listOf(
         completed = true
     ),
     Project(
-        id = 1,
         name = "S.G.VEN",
         description = "Integral system for management and selling of tickets for events.",
         tags = mutableListOf("informix", "desktop", "visual studio", "windows"),
@@ -345,7 +339,6 @@ val sampleProjects: List<Project> = listOf(
         completed = true
     ),
     Project(
-        id = 1,
         name = "Absolutely Meme",
         description = "This is just sample data, sorry JUEJUEJUE",
         tags = mutableListOf("meme", "more meme", "even more meme", "absolutely insane meme"),

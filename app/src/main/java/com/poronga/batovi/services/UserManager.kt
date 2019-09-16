@@ -60,9 +60,9 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
         saveProjects()
     }
 
-    fun deleteProject(projectID: Int){
+    fun deleteProject(name: String){
         App.projects.forEach {
-            if (it.id==projectID){
+            if (it.name == name){
                 App.projects.remove(it)
                 saveProjects()
             }

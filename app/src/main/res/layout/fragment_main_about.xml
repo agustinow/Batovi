@@ -5,7 +5,7 @@
     android:id="@+id/fragment_main_about_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/gradient_items"
     tools:context=".view.ui.main.fragments.MainAboutFragment">
 
     <TextView
@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Thanks for using the application ❤️"
+        android:text="Thanks for using the application"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,10 +24,12 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorPrimaryLight"
+        android:backgroundTint="@color/md_red_300"
         android:text="Meet the Team"
-        android:textColor="@color/colorAccent"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_contact_us"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,23 +41,24 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorPrimaryLight"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/md_red_300"
         android:text="Contact Us"
-        android:textColor="@color/colorAccent"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_meet_the_team"
+        app:layout_constraintStart_toStartOf="@+id/btn_meet_the_team" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/img_about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_app_logo"
+        android:background="@drawable/ic_heart1"
         app:layout_constraintBottom_toTopOf="@+id/btn_meet_the_team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_thanks"
         app:layout_constraintVertical_bias="0.508" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

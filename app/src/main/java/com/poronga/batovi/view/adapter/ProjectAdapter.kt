@@ -18,11 +18,11 @@ class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): Re
     private var projects: MutableList<Project> = mutableListOf()
     val differ: AsyncListDiffer<Project> = AsyncListDiffer(this@ProjectAdapter, object: DiffUtil.ItemCallback<Project>(){
         override fun areItemsTheSame(oldItem: Project, newItem: Project): Boolean {
-            return(oldItem.id == newItem.id)
+            return(oldItem.name == newItem.name)
         }
 
         override fun areContentsTheSame(oldItem: Project, newItem: Project): Boolean {
-            return(oldItem.name == newItem.name && oldItem.description == newItem.description && oldItem.dateCreated == newItem.dateCreated)
+            return(oldItem.description == newItem.description && oldItem.dateCreated == newItem.dateCreated)
         }
 
     })

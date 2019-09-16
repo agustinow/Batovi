@@ -18,7 +18,11 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.transition.Transition
+import androidx.transition.TransitionInflater
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
@@ -146,28 +150,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadFragment(frag: Int){
-        var addToBackStack = false
         val newFrag = when(frag){
             1 -> MainHomeFragment.newInstance()
             2 -> MainInfoFragment.newInstance()
             3 -> MainAboutFragment.newInstance()
             4 -> MainAchievementFragment.newInstance()
             5 -> MainCreateProject.newInstance()
-            else -> {
-                addToBackStack = true
-                MainNewProjectFragment.newInstance()
-            }
+            else -> MainHomeFragment.newInstance()
         }
-        model.selectedFrag = frag
         if(frag == 5){
             (newFrag as MainCreateProject).show(supportFragmentManager, newFrag.tag)
-            return@loadFragment
+            return
+        } else {
+            model.selectedFrag = frag
         }
-        val trans = supportFragmentManager.beginTransaction()
-            .replace(ui_content.id, newFrag, newFrag.tag)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        if(addToBackStack) trans.addToBackStack(null)
-        trans.commit()
+        with(supportFragmentManager.beginTransaction()) {
+            replace(ui_content.id, newFrag, newFrag.tag)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            commit()
+        }
     }
 
     fun resetProgressBar(){
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showChangeImageDialog() {
         MaterialDialog(this@MainActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
-            listItems(R.array.image_select_array) { dialog, index, text ->
+            listItems(R.array.image_select_array) { _, index, _ ->
                 when(index){
                     0 -> {
                         this@MainActivity.chooseFromGallery()
@@ -202,6 +203,10 @@ class MainActivity : AppCompatActivity() {
         val types = listOf("image/jpeg", "image/png")
         intent.putExtra(Intent.EXTRA_MIME_TYPES, types.toTypedArray())
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    }
+
+    override fun onBackPressed() {
+        loadFragment(1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

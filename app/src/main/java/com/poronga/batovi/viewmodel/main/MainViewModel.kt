@@ -10,4 +10,5 @@ import java.sql.Date
 class MainViewModel: ViewModel() {
     var newProjectDifficulty: Int = 0
     var selectedFrag = 1
+    var heartbeatSpeedLevel = 10f
 }

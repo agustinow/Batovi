@@ -7,20 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.chip.Chip
 import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.services.UserManager
+import com.poronga.batovi.view.ui.main.MainActivity
+import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import java.util.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.fragment_main_create_project.txtProjectNameLayout
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -29,6 +33,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var userManager: UserManager
+    lateinit var model: MainViewModel
 
     val tagsList = mutableListOf<String?>()
     val languageList= mutableListOf<String?>()
@@ -42,6 +47,10 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
     var chosenDifficulty: Int = 0
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
+    override fun getTheme(): Int {
+        return R.style.AppThemeMaterialCustomAnimation
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +62,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.injector.inject(this@MainCreateProject)
+        model = ViewModelProviders.of(this)[MainViewModel::class.java]
         toolbar = view.findViewById(R.id.toolbar)
         toolbar.setNavigationOnClickListener{
             dismiss()
@@ -112,14 +122,14 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
         btnCreateProject.setOnClickListener {
             var isSuccessful=true
-            if(txtProjectName.text.isNullOrEmpty()){
-              txtProjectNameLayout.error ="Project Name is empty!"
-              isSuccessful=false
-            }
-            if(txtProjectDescription.text.isNullOrEmpty()){
-                txtProjectDescriptionLayout.error = "Project Description is empty!"
-                isSuccessful=false
-            }
+            txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
+              isSuccessful = false
+               "Project Name is empty!"
+            } else null
+            txtProjectDescriptionLayout.error = if(txtProjectDescription.text.isNullOrEmpty()){
+                isSuccessful = false
+                "Project Description is empty!"
+            } else null
             if (chosenDifficulty==0){
                 isSuccessful=false
             }
@@ -133,9 +143,20 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             chipgroupLanguages.forEach {
                 languageList.add((it as Chip).text.toString())
             }
+            var nameExists = false
+            App.projects.forEach{
+                if(it.name == txtProjectName.text.toString()){
+                    nameExists = true
+                    isSuccessful = false
+                }
+            }
+            if(txtProjectNameLayout.error == null){
+                if(nameExists) txtProjectNameLayout.error = "There is already a project with that name!"
+                else txtProjectNameLayout.error = null
+            }
             if (isSuccessful){
-                //newProject()
-                Toast.makeText(context!!,"DONE",Toast.LENGTH_SHORT).show()
+                newProject()
+                Toast.makeText(context!!,"DONE", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -143,8 +164,8 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     fun newProject(){
+        //VERIFICAR NOMBRE NO REPETIDO CSM
         val actualProject = Project(
-            id = App.projects.last().id++,
             name = txtProjectName.text.toString(),
             description = txtProjectDescription.text.toString(),
             tags =tagsList,
@@ -155,8 +176,8 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             thumbnailURL = null,
             difficulty = chosenDifficulty,
             completed = false)
-        Toast.makeText(context,App.projects.last().id.toString(),Toast.LENGTH_SHORT).show()
-       // userManager.createProject(actualProject)
+        Toast.makeText(context,App.projects.last().name,Toast.LENGTH_SHORT).show()
+        userManager.createProject(actualProject)
     }
 
     override fun onStart() {
@@ -166,11 +187,8 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height= ViewGroup.LayoutParams.MATCH_PARENT
             dialog.window!!.setLayout(width,height)
+            activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL,R.style.AppTheme)
     }
 
     fun askDifficulty(){
@@ -206,6 +224,12 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        with(activity as MainActivity){
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        super.onDismiss(dialog)
+    }
 
     companion object {
         @JvmStatic

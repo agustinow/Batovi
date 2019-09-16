@@ -16,7 +16,7 @@ import java.util.*
 
 class User(var id: Int = 0, var name: String?, var lvl: Int = 1, var xp: Int = 0, var image: String? = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/01/bad_luck_brian-e1420582077129.jpeg", var achievements: MutableList<Int>)
 
-class Project(var id: Int = 0, var name: String? = null, var description: String? = null,//Maybe participants?
+class Project(var name: String, var description: String? = null,//Maybe participants?
               var tags: MutableList<String?> = mutableListOf(),
               var languages: MutableList<String?> = mutableListOf(),
               var tasks: MutableList<Task>? = mutableListOf(), var dateCreated: Date? = null,
