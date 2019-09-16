@@ -9,24 +9,30 @@ import androidx.fragment.app.DialogFragment
 import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.chip.Chip
 import com.poronga.batovi.*
+import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.services.UserManager
-import com.poronga.batovi.view.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import java.util.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_main_create_project.txtProjectNameLayout
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
 class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
+
     @Inject
     lateinit var userManager: UserManager
+
+    val tagsList = mutableListOf<String?>()
+    val languageList= mutableListOf<String?>()
+
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         txtProjectSelecteDate.text= "$monthOfYear/$dayOfMonth/$year"
@@ -46,6 +52,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        App.injector.inject(this@MainCreateProject)
         toolbar = view.findViewById(R.id.toolbar)
         toolbar.setNavigationOnClickListener{
             dismiss()
@@ -81,7 +88,8 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
                 chipgroupLanguages.addView(chip)
                 txtProjectLanguages.text!!.clear()
                 chip.setOnCloseIconClickListener{
-                chipgroupLanguages.removeView(chip)
+                    chipgroupLanguages.removeView(chip)
+                    languageList.remove(txtProjectLanguages.text.toString())
                 }
             }else{
                 txtProjectLanguages.error= "Language is empty!"
@@ -99,22 +107,56 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
                 now.get(Calendar.DAY_OF_MONTH) // Inital day selection
             )
             dpd.show(fragmentManager!!,"Datepickerdialog")
-
+            now.get(Calendar.DATE)
         }
 
         btnCreateProject.setOnClickListener {
-            txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
-                 "Project Name is empty!"
-            } else null
-            txtProjectDescriptionLayout.error = if(txtProjectDescription.text.isNullOrEmpty()){
-                "Project Description is empty!"
-            } else null
+            var isSuccessful=true
+            if(txtProjectName.text.isNullOrEmpty()){
+              txtProjectNameLayout.error ="Project Name is empty!"
+              isSuccessful=false
+            }
+            if(txtProjectDescription.text.isNullOrEmpty()){
+                txtProjectDescriptionLayout.error = "Project Description is empty!"
+                isSuccessful=false
+            }
+            if (chosenDifficulty==0){
+                isSuccessful=false
+            }
+            if(txtProjectSelecteDate.text.isNullOrEmpty()){
+                isSuccessful=false
+
+            }
+            chipgroupTag.forEach {
+                tagsList.add((it as Chip).text.toString())
+            }
+            chipgroupLanguages.forEach {
+                languageList.add((it as Chip).text.toString())
+            }
+            if (isSuccessful){
+                //newProject()
+                Toast.makeText(context!!,"DONE",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }
 
     fun newProject(){
-
+        val actualProject = Project(
+            id = App.projects.last().id++,
+            name = txtProjectName.text.toString(),
+            description = txtProjectDescription.text.toString(),
+            tags =tagsList,
+            languages =languageList,
+            tasks = mutableListOf(),
+            dateCreated = Date(),
+            dateFinish = SimpleDateFormat("M/d/yyyy").parse(txtProjectSelecteDate.text.toString()),
+            thumbnailURL = null,
+            difficulty = chosenDifficulty,
+            completed = false)
+        Toast.makeText(context,App.projects.last().id.toString(),Toast.LENGTH_SHORT).show()
+       // userManager.createProject(actualProject)
     }
 
     override fun onStart() {

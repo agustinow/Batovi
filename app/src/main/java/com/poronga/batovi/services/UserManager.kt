@@ -56,11 +56,17 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     }
 
     fun createProject(project: Project){
-        val projectJson= gson.toJson(project)
-        App.instance.getSharedPreferences(PREF_PROJECTS,Context.MODE_PRIVATE)
-            .edit()
-            .putString(PREF_PROJECTS,projectJson)
-            .apply()
+        App.projects.add(project)
+        saveProjects()
+    }
+
+    fun deleteProject(projectID: Int){
+        App.projects.forEach {
+            if (it.id==projectID){
+                App.projects.remove(it)
+                saveProjects()
+            }
+        }
     }
 
     fun saveProjects(){

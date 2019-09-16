@@ -4,6 +4,7 @@ import android.app.Application
 import com.poronga.batovi.dagger.module.AppModule
 import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.ui.main.MainActivity
+import com.poronga.batovi.view.ui.main.fragments.MainCreateProject
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(subject: MainActivity)
     fun inject(subject: UserManager)
+    fun inject(subject: MainCreateProject)
 
     @Component.Builder
     interface Builder {

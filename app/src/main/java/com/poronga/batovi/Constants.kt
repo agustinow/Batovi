@@ -1,11 +1,14 @@
 package com.poronga.batovi
 
 import android.graphics.Color
+import android.os.Build
 import com.poronga.batovi.model.json.Achievement
 import com.poronga.batovi.model.json.Project
 import com.poronga.batovi.model.json.Task
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 const val PREF_NAME: String = "sharedprefs"
@@ -35,6 +38,8 @@ val colors = mutableListOf(
     (Color.parseColor("#FFE0B2")),
     (Color.parseColor("#FFCCBC"))
 )
+
+
 
 //ACHIEVEMENTS
 val baseAchievements: List<Achievement> = listOf(
