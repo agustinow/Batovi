@@ -55,6 +55,14 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
         return gson.fromJson<User>(userJson, User::class.java)
     }
 
+    fun createProject(project: Project){
+        val projectJson= gson.toJson(project)
+        App.instance.getSharedPreferences(PREF_PROJECTS,Context.MODE_PRIVATE)
+            .edit()
+            .putString(PREF_PROJECTS,projectJson)
+            .apply()
+    }
+
     fun saveProjects(){
         val projects = App.projects
         val projectsJson = gson.toJson(projects)

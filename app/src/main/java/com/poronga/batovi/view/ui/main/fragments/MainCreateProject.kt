@@ -15,18 +15,22 @@ import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.chip.Chip
 import com.poronga.batovi.*
+import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import java.util.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.activity_main.*
-
-
+import javax.inject.Inject
 
 
 class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
+    @Inject
+    lateinit var userManager: UserManager
+
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        //dostuff
+        txtProjectSelecteDate.text= "$monthOfYear/$dayOfMonth/$year"
+
     }
 
     var chosenDifficulty: Int = 0
@@ -46,8 +50,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
         toolbar.setNavigationOnClickListener{
             dismiss()
         }
-        txtProjectDescriptionLayout.requestFocus()
-        //txtProjectNameLayout.requestFocus()
+        txtProjectNameLayout.requestFocus()
         chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         toolbar.title = "New Project"
@@ -96,16 +99,22 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
                 now.get(Calendar.DAY_OF_MONTH) // Inital day selection
             )
             dpd.show(fragmentManager!!,"Datepickerdialog")
+
         }
 
         btnCreateProject.setOnClickListener {
             txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
                  "Project Name is empty!"
             } else null
-            txtProjectDescription.error = if(txtProjectDescription.text.isNullOrEmpty()){
+            txtProjectDescriptionLayout.error = if(txtProjectDescription.text.isNullOrEmpty()){
                 "Project Description is empty!"
             } else null
         }
+
+    }
+
+    fun newProject(){
+
     }
 
     override fun onStart() {

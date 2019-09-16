@@ -94,17 +94,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtProjectDescriptionLayout"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/txtProjectNameLayout"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectNameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtProjectNameLayout"
-            android:hint="@string/description"
-
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/description"
+
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="@+id/txtProjectNameLayout"
+            app:layout_constraintStart_toStartOf="@+id/txtProjectNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/txtProjectNameLayout"
             app:startIconCheckable="false"
             app:startIconTintMode="multiply">
 
@@ -117,19 +117,19 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtProjectNameLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/project_name"
 
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:startIconCheckable="false"
             app:startIconTintMode="multiply">
 
@@ -207,6 +207,18 @@
             app:iconTintMode="multiply"
             app:layout_constraintStart_toStartOf="@+id/btnSelectDifficulty"
             app:layout_constraintTop_toBottomOf="@+id/btnSelectDifficulty" />
+
+        <TextView
+            android:id="@+id/txtProjectSelecteDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAddTime"
+            app:layout_constraintStart_toEndOf="@+id/btnAddTime"
+            app:layout_constraintTop_toTopOf="@+id/btnAddTime"
+            tools:text="30/07/2019" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
