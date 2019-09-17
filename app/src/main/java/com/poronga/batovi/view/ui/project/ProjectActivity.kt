@@ -3,7 +3,7 @@ package com.poronga.batovi.view.ui.project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.tabs.TabLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.poronga.batovi.App
 import com.poronga.batovi.EXTRA_PROJECT_NAME
@@ -28,8 +28,12 @@ class ProjectActivity : AppCompatActivity() {
                 it.name == projectName
             }
         }
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
         toolbar.title = model.project!!.name
         view_pager.adapter = ProjectFragmentsAdapter(lifecycle, supportFragmentManager)
+        view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         TabLayoutMediator(tabLayout, view_pager, true,
             TabLayoutMediator.OnConfigureTabCallback { tab, position ->

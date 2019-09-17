@@ -13,13 +13,16 @@
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-             android:id="@+id/toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingEnd="16dp"
             android:paddingStart="6dp"
+            android:paddingEnd="16dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_prev24dp" />
+            app:navigationIcon="@drawable/ic_prev24dp"
+            app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:title="New Project"
+            app:titleTextColor="@color/colorBackground" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -16,7 +16,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="VetApp" />
+        app:navigationIcon="@drawable/mdtp_ic_chevron_left_black_24dp"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:title="VetApp"
+        app:titleTextColor="@color/colorBackground" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -25,7 +28,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabBackground="@color/colorPrimary">
+        app:tabBackground="@color/colorPrimary"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabRippleColor="@color/colorBackground"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/colorBackground">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

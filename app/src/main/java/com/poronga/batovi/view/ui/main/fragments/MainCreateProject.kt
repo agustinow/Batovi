@@ -48,7 +48,6 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     var chosenDifficulty: Int = 0
-    lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun getTheme(): Int {
         return R.style.AppThemeMaterialCustomAnimation
@@ -66,15 +65,12 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
         super.onViewCreated(view, savedInstanceState)
         App.injector.inject(this@MainCreateProject)
         model = ViewModelProviders.of(this)[MainViewModel::class.java]
-        toolbar = view.findViewById(R.id.toolbar)
         toolbar.setNavigationOnClickListener{
             dismiss()
         }
         txtProjectNameLayout.requestFocus()
         chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
-        toolbar.title = "New Project"
-        toolbar.setTitleTextColor(resources.getColor(R.color.colorBackground, resources.newTheme()))
         btnAddTag.setOnClickListener {
             if (!txtProjectTags.text.isNullOrEmpty()) {
                 val chip = Chip(context)

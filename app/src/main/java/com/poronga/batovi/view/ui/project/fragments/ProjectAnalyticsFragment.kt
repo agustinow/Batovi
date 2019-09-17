@@ -15,6 +15,14 @@ import com.poronga.batovi.viewmodel.project.ProjectViewModel
 class ProjectAnalyticsFragment : Fragment() {
     lateinit var model: ProjectViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_project_analytics, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[ProjectViewModel::class.java]
