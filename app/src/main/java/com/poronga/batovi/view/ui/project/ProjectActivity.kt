@@ -3,9 +3,12 @@ package com.poronga.batovi.view.ui.project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.poronga.batovi.App
 import com.poronga.batovi.EXTRA_PROJECT_NAME
 import com.poronga.batovi.R
+import com.poronga.batovi.view.adapter.ProjectFragmentsAdapter
 import com.poronga.batovi.viewmodel.project.ProjectViewModel
 import kotlinx.android.synthetic.main.activity_project.*
 
@@ -26,8 +29,15 @@ class ProjectActivity : AppCompatActivity() {
             }
         }
         toolbar.title = model.project!!.name
+        view_pager.adapter = ProjectFragmentsAdapter(lifecycle, supportFragmentManager)
 
-
+        TabLayoutMediator(tabLayout, view_pager, true,
+            TabLayoutMediator.OnConfigureTabCallback { tab, position ->
+                when(position){
+                    0 -> tab.text = "Tasks"
+                    1 -> tab.text = "Analytics"
+                }
+            }).attach()
 
     }
 }
