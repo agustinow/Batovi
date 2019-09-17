@@ -18,6 +18,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -42,7 +43,9 @@ import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.ui.main.fragments.*
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.drawer_top_menu.view.*
+import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import kotlinx.android.synthetic.main.fragment_main_home.*
 import javax.inject.Inject
 
@@ -78,6 +81,12 @@ class MainActivity : AppCompatActivity() {
                 .setBackgroundTint(getColor(R.color.colorPrimary))
                 .setTextColor(Color.WHITE)
                 .show()
+        }
+        userManager.onProjectCreated={
+              Snackbar.make(main_layout, "${it.name} Created!", Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(getColor(R.color.colorPrimary))
+            .setTextColor(Color.WHITE)
+            .show()
         }
         //CHECK IF USER IS FOUND, IF NOT, ASK.
         if(App.currentUser == null) {

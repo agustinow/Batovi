@@ -11,6 +11,8 @@ import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.view.*
@@ -25,6 +27,7 @@ import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import java.util.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.android.synthetic.main.custom_action_bar.view.*
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -120,6 +123,39 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             now.get(Calendar.DATE)
         }
 
+        imgCleanForm.setOnClickListener{
+            clearForm()
+        }
+
+        txtProjectName.addTextChangedListener(object: TextWatcher{
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                var nameExists = false
+                App.projects.forEach{
+                    if(it.name == txtProjectName.text.toString()){
+                        nameExists = true
+                    }
+                }
+                if(nameExists) txtProjectNameLayout.error = "There is already a project with that name!"
+                else txtProjectNameLayout.error = null
+
+            }
+
+        })
+
         btnCreateProject.setOnClickListener {
             var isSuccessful=true
             txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
@@ -143,24 +179,27 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             chipgroupLanguages.forEach {
                 languageList.add((it as Chip).text.toString())
             }
-            var nameExists = false
-            App.projects.forEach{
-                if(it.name == txtProjectName.text.toString()){
-                    nameExists = true
-                    isSuccessful = false
-                }
-            }
-            if(txtProjectNameLayout.error == null){
-                if(nameExists) txtProjectNameLayout.error = "There is already a project with that name!"
-                else txtProjectNameLayout.error = null
-            }
             if (isSuccessful){
                 newProject()
-                Toast.makeText(context!!,"DONE", Toast.LENGTH_SHORT).show()
+                dismiss()
             }
 
         }
 
+    }
+
+    fun clearForm(){
+        txtProjectName.text!!.clear()
+        txtProjectDescription.text!!.clear()
+        txtProjectSelecteDate.text=""
+        txtProjectTags.text!!.clear()
+        txtProjectLanguages.text!!.clear()
+        chipgroupTag.removeAllViews()
+        chipgroupLanguages.removeAllViews()
+        chosenDifficulty=0
+
+        this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_cup2, resources.newTheme())
+        this@MainCreateProject.btnSelectDifficulty.text="Select Difficulty"
     }
 
     fun newProject(){
@@ -176,8 +215,8 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             thumbnailURL = null,
             difficulty = chosenDifficulty,
             completed = false)
-        Toast.makeText(context,App.projects.last().name,Toast.LENGTH_SHORT).show()
         userManager.createProject(actualProject)
+
     }
 
     override fun onStart() {

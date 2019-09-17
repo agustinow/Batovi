@@ -22,5 +22,7 @@ open class AppModule {
 
     },{
 
+    },{
+
     })
 }

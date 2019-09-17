@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:id="@+id/createProject_layout"
     android:layout_height="match_parent">
 
 
@@ -13,7 +13,7 @@
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:paddingEnd="16dp"
@@ -30,6 +30,17 @@
         android:background="@color/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout_editor_absoluteY="50dp">
+
+        <ImageButton
+            android:id="@+id/imgCleanForm"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="@+id/btnAddTime"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddTime"
+            app:srcCompat="@drawable/icbasura" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipgroupTag"

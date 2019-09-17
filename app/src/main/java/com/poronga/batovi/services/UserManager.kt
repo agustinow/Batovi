@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
-class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: (String) -> (Unit)) {
+class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: (String) -> (Unit), var onProjectCreated:(Project)->(Unit)) {
     @Inject
     lateinit var gson: Gson
 
@@ -58,6 +58,7 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     fun createProject(project: Project){
         App.projects.add(project)
         saveProjects()
+        onProjectCreated(project)
     }
 
     fun deleteProject(name: String){
