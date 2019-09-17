@@ -19,6 +19,7 @@ const val DIFF_NORMAL: Int = 2
 const val DIFF_COMPLEX: Int = 3
 const val DIFF_PRO: Int = 4
 const val GALLERY_REQUEST_CODE: Int = 1331
+const val EXTRA_PROJECT_NAME: String = "project_name"
 
 val colors = mutableListOf(
     (Color.parseColor("#FFCDD2")),

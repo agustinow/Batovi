@@ -2,6 +2,7 @@ package com.poronga.batovi.view.ui.main.fragments
 
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.poronga.batovi.*
 import com.poronga.batovi.view.adapter.ProjectAdapter
 import com.poronga.batovi.view.ui.main.MainActivity
+import com.poronga.batovi.view.ui.project.ProjectActivity
 import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main_home.*
 import java.util.*
@@ -49,7 +51,10 @@ class MainHomeFragment : Fragment() {
 
     fun onUserExists(){
         adapter = ProjectAdapter(context!!) {
-            //click
+            //Intent
+            val intent = Intent(context, ProjectActivity::class.java)
+            intent.putExtra(EXTRA_PROJECT_NAME, it.name)
+            startActivity(intent)
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
