@@ -141,14 +141,14 @@ class MainActivity : AppCompatActivity() {
 
     fun loadFragment(frag: Int){
         val newFrag = when(frag){
-            1 -> MainHomeFragment.newInstance()
-            2 -> MainInfoFragment.newInstance()
-            3 -> MainAboutFragment.newInstance()
-            4 -> MainAchievementFragment.newInstance()
-            5 -> MainCreateProject.newInstance()
+            FRAG_HOME -> MainHomeFragment.newInstance() //1
+            FRAG_INFO -> MainInfoFragment.newInstance() //2
+            FRAG_ABOUT -> MainAboutFragment.newInstance() //3
+            FRAG_ACHIEVEMENT -> MainAchievementFragment.newInstance() //4
+            FRAG_CREATE_PROJECT -> MainCreateProject.newInstance() //5
             else -> MainHomeFragment.newInstance()
         }
-        if(frag == 5){
+        if(frag == FRAG_CREATE_PROJECT){
             (newFrag as MainCreateProject).show(supportFragmentManager, newFrag.tag)
             return
         } else {
@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        loadFragment(1)
+        loadFragment(FRAG_HOME)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

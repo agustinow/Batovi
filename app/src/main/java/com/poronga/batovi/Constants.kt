@@ -20,6 +20,11 @@ const val DIFF_COMPLEX: Int = 3
 const val DIFF_PRO: Int = 4
 const val GALLERY_REQUEST_CODE: Int = 1331
 const val EXTRA_PROJECT_NAME: String = "project_name"
+const val FRAG_HOME=1
+const val FRAG_INFO=2
+const val FRAG_ABOUT=3
+const val FRAG_ACHIEVEMENT=4
+const val FRAG_CREATE_PROJECT=5
 
 val colors = mutableListOf(
     (Color.parseColor("#FFCDD2")),

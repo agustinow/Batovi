@@ -5,14 +5,70 @@
     android:id="@+id/project_analytics_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.project.fragments.ProjectAnalyticsFragment" >
+    android:background="@color/colorBackground"
+    tools:context=".view.ui.project.fragments.ProjectAnalyticsFragment">
 
     <TextView
-        android:id="@+id/project_analytics_text"
+        android:id="@+id/txtProjectTasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ahre loco"
-        android:textSize="36sp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Total Tasks: 0" />
+
+    <TextView
+        android:id="@+id/txtWeeklyTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Weekly Tasks:"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtProjectTasks"
+        app:layout_constraintStart_toStartOf="@+id/txtProjectTasks"
+        app:layout_constraintTop_toBottomOf="@+id/txtWipTasks" />
+
+    <TextView
+        android:id="@+id/txtCompletedTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtProjectTasks"
+        app:layout_constraintStart_toStartOf="@+id/txtProjectTasks"
+        app:layout_constraintTop_toBottomOf="@+id/txtProjectTasks"
+        tools:text="Completed Tasks: 0" />
+
+    <TextView
+        android:id="@+id/txtWipTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtCompletedTasks"
+        app:layout_constraintStart_toStartOf="@+id/txtCompletedTasks"
+        app:layout_constraintTop_toBottomOf="@+id/txtCompletedTasks"
+        tools:text="WIP Tasks: 0" />
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWeeklyTasks" />
 </androidx.constraintlayout.widget.ConstraintLayout>

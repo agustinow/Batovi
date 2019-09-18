@@ -14,7 +14,6 @@ import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.core.view.*
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +26,6 @@ import com.poronga.batovi.viewmodel.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main_create_project.*
 import java.util.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.custom_action_bar.view.*
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -72,19 +70,19 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
         chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
         btnAddTag.setOnClickListener {
-            if (!txtProjectTags.text.isNullOrEmpty()) {
+            if (!txtTaskName.text.isNullOrEmpty()) {
                 val chip = Chip(context)
                 chip.setPadding(8)
-                chip.text = txtProjectTags.text
+                chip.text = txtTaskName.text
                 chip.setCloseIconResource(R.drawable.ic_close24dp)
                 chip.isCloseIconVisible = true
                 chipgroupTag.addView(chip)
-                txtProjectTags.text!!.clear()
+                txtTaskName.text!!.clear()
                 chip.setOnCloseIconClickListener {
                     chipgroupTag.removeView(chip)
                 }
             } else {
-                txtProjectTags.error = "Tag is empty!"
+                txtTaskName.error = "Tag is empty!"
             }
         }
         btnAddLanguages.setOnClickListener {
@@ -152,7 +150,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
         })
 
-        btnCreateProject.setOnClickListener {
+        btnAddTask.setOnClickListener {
             var isSuccessful=true
             txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
               isSuccessful = false
@@ -188,7 +186,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
         txtProjectName.text!!.clear()
         txtProjectDescription.text!!.clear()
         txtProjectSelecteDate.text=""
-        txtProjectTags.text!!.clear()
+        txtTaskName.text!!.clear()
         txtProjectLanguages.text!!.clear()
         chipgroupTag.removeAllViews()
         chipgroupLanguages.removeAllViews()
@@ -245,7 +243,7 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             }
             findViewById<ImageButton>(R.id.imgBtnComplex).setOnClickListener {
                 this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_ma3, resources.newTheme())
-                this@MainCreateProject.btnSelectDifficulty.text=" Complex"
+                this@MainCreateProject.btnSelectDifficulty.text="Complex"
                 chosenDifficulty = DIFF_COMPLEX
                 dismiss()
             }

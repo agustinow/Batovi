@@ -43,7 +43,7 @@ class MainHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[MainViewModel::class.java]
         btnNewProject.setOnClickListener {
-            (activity as MainActivity).loadFragment(5)
+            (activity as MainActivity).loadFragment(FRAG_CREATE_PROJECT)
         }
         onUserExists()
 
@@ -69,17 +69,22 @@ class MainHomeFragment : Fragment() {
         val entries = ArrayList<PieEntry>()
         val set = PieDataSet(entries,"")
         val data = PieData(set)
-        entries.add(PieEntry(12.3f, "Portfolio"))
-        entries.add(PieEntry(46.5f, "S.G.Ven"))
-        entries.add(PieEntry(20.8f, "This"))
-        entries.add(PieEntry(14.2f, "Doing nothing"))
-        entries.add(PieEntry(6.2f, "Masturbating"))
+        with(entries){
+            add(PieEntry(12.3f, "Portfolio"))
+            add(PieEntry(46.5f, "S.G.Ven"))
+            add(PieEntry(20.8f, "This"))
+            add(PieEntry(14.2f, "Doing nothing"))
+            add(PieEntry(6.2f, "Masturbating"))
+        }
         chart.data = data
-        chart.description.text=""
-        chart.legend.isEnabled = false
-        chart.isDrawHoleEnabled = false
-        chart.animateY(1500, Easing.EaseInOutBack)
+        with(chart){
+            description.text=""
+            legend.isEnabled = false
+            isDrawHoleEnabled = false
+            animateY(1500, Easing.EaseInOutBack)
+        }
         set.colors = colors.shuffled(Random())
+
     }
 
     companion object {

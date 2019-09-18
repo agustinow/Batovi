@@ -38,9 +38,17 @@ class ProjectActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, view_pager, true,
             TabLayoutMediator.OnConfigureTabCallback { tab, position ->
                 when(position){
-                    0 -> tab.text = "Tasks"
-                    1 -> tab.text = "Analytics"
+                    0 -> {
+                     //   tab.text = "Tasks"
+                        tab.icon=resources.getDrawable(R.drawable.calendar,resources.newTheme())
+
+                    }
+                    1 -> {
+                      //  tab.text = "Analytics"
+                        tab.icon=resources.getDrawable(R.drawable.ic_chart,resources.newTheme())
+                    }
                 }
+
             }).attach()
 
     }

@@ -38,11 +38,10 @@
             android:id="@+id/imgCleanForm"
             android:layout_width="49dp"
             android:layout_height="49dp"
-            android:layout_marginTop="32dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="@+id/btnAddTime"
-            app:layout_constraintTop_toBottomOf="@+id/btnAddTime"
+            app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
+            app:layout_constraintTop_toTopOf="@+id/btnAddTime"
             app:srcCompat="@drawable/icbasura" />
 
         <com.google.android.material.chip.ChipGroup
@@ -53,8 +52,8 @@
             app:layout_anchor="@+id/frameLayout4"
             app:layout_anchorGravity="center"
             app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectTagsLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtProjectTagsLayout">
+            app:layout_constraintStart_toStartOf="@+id/txtTaskNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/txtTaskNameLayout">
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -82,12 +81,12 @@
             app:iconSize="35dp"
             app:iconTint="@color/colorBackground"
             app:iconTintMode="multiply"
-            app:layout_constraintEnd_toEndOf="@+id/txtProjectTagsLayout"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectTagsLayout"
+            app:layout_constraintEnd_toEndOf="@+id/txtTaskNameLayout"
+            app:layout_constraintStart_toStartOf="@+id/txtTaskNameLayout"
             app:layout_constraintTop_toBottomOf="@+id/chipgroupTag" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtProjectTagsLayout"
+            android:id="@+id/txtTaskNameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -99,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@+id/chipgroupLanguages">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtProjectTags"
+                android:id="@+id/txtTaskName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/tags"
@@ -184,7 +183,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtProjectLanguagesLayout" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateProject"
+            android:id="@+id/btnAddTask"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -201,9 +200,9 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="@+id/txtProjectTagsLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTaskNameLayout"
             app:layout_constraintStart_toStartOf="@+id/btnAddLanguages"
-            app:layout_constraintTop_toTopOf="@+id/txtProjectTagsLayout" />
+            app:layout_constraintTop_toTopOf="@+id/txtTaskNameLayout" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddTime"
@@ -211,7 +210,6 @@
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_marginTop="8dp"
-            android:capitalize="none"
             android:text="End Date"
             android:textAllCaps="false"
             android:textSize="18sp"
