@@ -30,6 +30,7 @@ import kotlin.collections.ArrayList
 class MainHomeFragment : Fragment() {
     lateinit var model: MainViewModel
     lateinit var adapter: ProjectAdapter
+    lateinit var recentProjectAdapter: ProjectAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,41 +50,54 @@ class MainHomeFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        displayRecent()
+        onUserExists()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(context!!,"fuaaa",Toast.LENGTH_SHORT).show()
+
+    }
+
     fun onUserExists(){
         adapter = ProjectAdapter(context!!) {
             //Intent
             val intent = Intent(context, ProjectActivity::class.java)
             intent.putExtra(EXTRA_PROJECT_NAME, it.name)
             startActivity(intent)
+            App.recentProjects.add(it)
+            if(App.recentProjects.size>5){
+                App.recentProjects.removeAt(0)
+            }
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
+        adapter.type=1
         adapter.setItems(App.projects)
         recycler_projects.layoutManager = lm
         recycler_projects.addItemDecoration(decor)
         recycler_projects.adapter = adapter
-        loadChart()
-    }
 
-    fun loadChart(){
-        val entries = ArrayList<PieEntry>()
-        val set = PieDataSet(entries,"")
-        val data = PieData(set)
-        with(entries){
-            add(PieEntry(12.3f, "Portfolio"))
-            add(PieEntry(46.5f, "S.G.Ven"))
-            add(PieEntry(20.8f, "This"))
-            add(PieEntry(14.2f, "Doing nothing"))
-            add(PieEntry(6.2f, "Masturbating"))
+        displayRecent()
+    }
+    fun displayRecent(){
+        recentProjectAdapter = ProjectAdapter(context!!) {
+            //Intent
+            val intent = Intent(context, ProjectActivity::class.java)
+            intent.putExtra(EXTRA_PROJECT_NAME, it.name)
+            startActivity(intent)
         }
-        chart.data = data
-        with(chart){
-            description.text=""
-            legend.isEnabled = false
-            isDrawHoleEnabled = false
-            animateY(1500, Easing.EaseInOutBack)
-        }
-        set.colors = colors.shuffled(Random())
+        val lm = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, true)
+        val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
+        recentProjectAdapter.type=0
+        recentProjectAdapter.setItems(App.recentProjects)
+        lm.isSmoothScrollbarEnabled=true
+        recycler_recent_projects.layoutManager = lm
+        recycler_recent_projects.addItemDecoration(decor)
+        recycler_recent_projects.adapter = recentProjectAdapter
 
     }
 

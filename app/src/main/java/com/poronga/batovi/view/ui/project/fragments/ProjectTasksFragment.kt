@@ -4,13 +4,14 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.UserManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,8 +21,11 @@ import com.google.android.material.textfield.TextInputLayout
 import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Task
 import com.poronga.batovi.view.adapter.TaskAdapter
+import com.poronga.batovi.view.ui.main.MainActivity
+import com.poronga.batovi.view.ui.project.ProjectActivity
 import com.poronga.batovi.viewmodel.project.ProjectViewModel
 import kotlinx.android.synthetic.main.fragment_project_tasks.*
+
 
 class ProjectTasksFragment : Fragment() {
     lateinit var model: ProjectViewModel
@@ -40,7 +44,25 @@ class ProjectTasksFragment : Fragment() {
         model = ViewModelProviders.of(activity!!)[ProjectViewModel::class.java]
         adapter = TaskAdapter(context!!) {
             Toast.makeText(context!!, "Task ${it.name} selected", Toast.LENGTH_SHORT).show()
+            model.project!!.tasks!!.remove(it)
+            loadTasks()
+            //(activity!! as ProjectActivity).userManager.giveAchievementent(4)
         }
+        swipe_layout.isRefreshing=false
+        loadTasks()
+        swipe_layout.setColorSchemeColors(resources.getColor(R.color.colorPrimary,resources.newTheme()),resources.getColor(R.color.colorBackground,resources.newTheme()))
+        swipe_layout.setOnRefreshListener {
+            //live data pija observe
+            loadTasks()
+            swipe_layout.isRefreshing=true
+
+        }
+        btnNewTask.setOnClickListener {
+            createTask()
+        }
+    }
+
+    fun loadTasks(){
         with(model.project!!.tasks!!){
             if(this.isEmpty()){
                 project_tasks_recycler.visibility = View.GONE
@@ -55,11 +77,7 @@ class ProjectTasksFragment : Fragment() {
                 adapter.setTasks(this)
             }
         }
-        btnNewTask.setOnClickListener {
-            createTask()
-        }
     }
-
     fun createTask(){
         val dialog = Dialog(context!!)
         with(dialog){
@@ -90,6 +108,8 @@ class ProjectTasksFragment : Fragment() {
                     model.project!!.tasks!!.add(actualTask)
                     name.text!!.clear()
                     description.text!!.clear()
+                    Toast.makeText(context,"Task Created",Toast.LENGTH_SHORT).show()
+                    loadTasks()
                 }
             }
             findViewById<ImageButton>(R.id.imgCleanForm).setOnClickListener {
@@ -100,8 +120,6 @@ class ProjectTasksFragment : Fragment() {
             show()
         }
     }
-
-
 
     companion object {
         @JvmStatic

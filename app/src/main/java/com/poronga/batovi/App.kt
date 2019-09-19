@@ -24,5 +24,6 @@ open class App: Application() {
         lateinit var injector: AppComponent
         var currentUser: User? = null
         lateinit var projects: MutableList<Project>
+        lateinit var recentProjects:MutableList<Project>
     }
 }

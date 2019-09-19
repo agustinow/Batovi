@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         //LOAD VIEW MODEL
         model = ViewModelProviders.of(this@MainActivity)[MainViewModel::class.java]
         App.projects = sampleProjects.toMutableList()
+        App.recentProjects= mutableListOf()
         //INJECT
         App.injector.inject(this@MainActivity)
         userManager.onXPChanged = {

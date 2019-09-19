@@ -10,12 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.poronga.batovi.App
 import com.poronga.batovi.R
 import com.poronga.batovi.formatDate
 import com.poronga.batovi.model.json.Project
 
 class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
     private var projects: MutableList<Project> = mutableListOf()
+    var type=1
     val differ: AsyncListDiffer<Project> = AsyncListDiffer(this@ProjectAdapter, object: DiffUtil.ItemCallback<Project>(){
         override fun areItemsTheSame(oldItem: Project, newItem: Project): Boolean {
             return(oldItem.name == newItem.name)
@@ -28,7 +30,13 @@ class ProjectAdapter(val context: Context, val onClick: (Project) -> (Unit)): Re
     })
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.element_project, parent, false))
+        return if(viewType == 1) ViewHolder(LayoutInflater.from(context).inflate(R.layout.element_project,parent,false))
+        else ViewHolder(LayoutInflater.from(context).inflate(R.layout.element_recent_project,parent,false))
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if(type==1) 1
+        else 0
     }
 
     override fun getItemCount(): Int {

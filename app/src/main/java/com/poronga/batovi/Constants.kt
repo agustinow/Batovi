@@ -25,6 +25,17 @@ const val FRAG_INFO=2
 const val FRAG_ABOUT=3
 const val FRAG_ACHIEVEMENT=4
 const val FRAG_CREATE_PROJECT=5
+const val ACHIV_NEWBORN=0       //Newborn
+const val ACHIV_TASK1=1         //Task manager
+const val ACHIV_PROJECT1=2      //Hard worker
+const val ACHIV_LATERMOM=3      //Ill do it later mom
+const val ACHIV_SUICIDAL=4      //Suicidal developer
+const val ACHIV_NOOB=5          //Noob
+const val ACHIV_PROJECT2=6      //I love my job
+const val ACHIV_TASK2=7         //Task god
+const val ACHIV_IMPOSSIBLE=8    //Impossible project
+const val ACHIV_PROJECT3=9      //No life developer
+
 
 val colors = mutableListOf(
     (Color.parseColor("#FFCDD2")),
@@ -44,8 +55,6 @@ val colors = mutableListOf(
     (Color.parseColor("#FFE0B2")),
     (Color.parseColor("#FFCCBC"))
 )
-
-
 
 //ACHIEVEMENTS
 val baseAchievements: List<Achievement> = listOf(
