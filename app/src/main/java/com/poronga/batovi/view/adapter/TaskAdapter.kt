@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Task
@@ -15,6 +16,20 @@ import kotlinx.android.synthetic.main.element_task.view.*
 
 class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private var tasks: MutableList<Task> = mutableListOf()
+    var isSelected=false
+    //Felipe o agustin del futuro pls agregar la opcion de seleccionar varios items de mierda jua jua.
+    val differ:AsyncListDiffer<Task> = AsyncListDiffer(this@TaskAdapter,object :DiffUtil.ItemCallback<Task>(){
+        override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
+            return(oldItem.name==newItem.name)
+        }
+
+        override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
+            return(oldItem.name==newItem.name)
+
+        }
+
+    })
+
     /*
     private val arrowToUp = RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
         interpolator = DecelerateInterpolator()
@@ -32,8 +47,16 @@ class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): Re
     */
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(LayoutInflater.from(context).inflate(R.layout.element_task, parent, false))
+        return if(viewType == 1) TaskViewHolder(LayoutInflater.from(context).inflate(R.layout.element_task_selected,parent,false))
+        else TaskViewHolder(LayoutInflater.from(context).inflate(R.layout.element_task,parent,false))
     }
+
+
+    override fun getItemViewType(position: Int): Int {
+        return if(isSelected) 1
+        else 0
+    }
+
 
     override fun getItemCount(): Int {
         return tasks.size
@@ -96,7 +119,7 @@ class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): Re
     }
 
     inner class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val layout = itemView.element_task_layout
+        val layout = itemView.element_task_selected_layout
         val name = itemView.element_task_name
         val expander = itemView.element_task_button
         val innerLayout = itemView.element_task_inner_content

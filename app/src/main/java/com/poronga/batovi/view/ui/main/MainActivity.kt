@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.holder.ImageHolder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
@@ -103,10 +104,15 @@ class MainActivity : AppCompatActivity() {
 
     fun loadDrawer(){
         val itemHome = PrimaryDrawerItem().withIdentifier(0).withName("Home")
+            itemHome.icon= ImageHolder(resources.getDrawable(R.drawable.ic_home,resources.newTheme()))
         val itemAbout = PrimaryDrawerItem().withIdentifier(1).withName("Info")
+            itemAbout.icon= ImageHolder(resources.getDrawable(R.drawable.ic_chart,resources.newTheme()))
         val itemInfo = PrimaryDrawerItem().withIdentifier(2).withName("About")
+            itemInfo.icon= ImageHolder(resources.getDrawable(R.drawable.ico_info,resources.newTheme()))
         val itemAchievements= PrimaryDrawerItem().withIdentifier(2).withName("Achievements")
+            itemAchievements.icon= ImageHolder(resources.getDrawable(R.drawable.ic_trofe,resources.newTheme()))
         val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
+            itemAdd.icon= ImageHolder(resources.getDrawable(R.drawable.ic_add,resources.newTheme()))
 
         drawerHeader = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
         drawerHeader.btn_user_img.setOnClickListener {

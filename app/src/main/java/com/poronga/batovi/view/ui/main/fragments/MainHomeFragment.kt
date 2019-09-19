@@ -56,12 +56,6 @@ class MainHomeFragment : Fragment() {
         onUserExists()
     }
 
-    override fun onStart() {
-        super.onStart()
-        Toast.makeText(context!!,"fuaaa",Toast.LENGTH_SHORT).show()
-
-    }
-
     fun onUserExists(){
         adapter = ProjectAdapter(context!!) {
             //Intent

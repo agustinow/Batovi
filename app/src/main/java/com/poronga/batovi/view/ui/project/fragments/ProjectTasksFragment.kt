@@ -18,18 +18,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.poronga.batovi.App
 import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Task
 import com.poronga.batovi.view.adapter.TaskAdapter
 import com.poronga.batovi.view.ui.main.MainActivity
 import com.poronga.batovi.view.ui.project.ProjectActivity
 import com.poronga.batovi.viewmodel.project.ProjectViewModel
+import kotlinx.android.synthetic.main.element_task.*
 import kotlinx.android.synthetic.main.fragment_project_tasks.*
 
 
 class ProjectTasksFragment : Fragment() {
     lateinit var model: ProjectViewModel
     lateinit var adapter: TaskAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,18 +46,19 @@ class ProjectTasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[ProjectViewModel::class.java]
         adapter = TaskAdapter(context!!) {
-            Toast.makeText(context!!, "Task ${it.name} selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!, "Task ${it.name} Removed", Toast.LENGTH_SHORT).show()
             model.project!!.tasks!!.remove(it)
+            //App.selectedTask.add(it)
+            //it.completed=true
+
             loadTasks()
             //(activity!! as ProjectActivity).userManager.giveAchievementent(4)
         }
-        swipe_layout.isRefreshing=false
         loadTasks()
         swipe_layout.setColorSchemeColors(resources.getColor(R.color.colorPrimary,resources.newTheme()),resources.getColor(R.color.colorBackground,resources.newTheme()))
         swipe_layout.setOnRefreshListener {
             //live data pija observe
             loadTasks()
-            swipe_layout.isRefreshing=true
 
         }
         btnNewTask.setOnClickListener {
@@ -71,6 +75,7 @@ class ProjectTasksFragment : Fragment() {
             } else {
                 txtNoTasks.visibility= View.GONE
                 project_tasks_recycler.adapter = adapter
+                project_tasks_recycler.visibility = View.VISIBLE
                 project_tasks_recycler.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
                 val decor = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
                 project_tasks_recycler.addItemDecoration(decor)
