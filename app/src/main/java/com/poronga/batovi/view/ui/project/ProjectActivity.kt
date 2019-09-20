@@ -3,6 +3,10 @@ package com.poronga.batovi.view.ui.project
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
@@ -28,10 +32,36 @@ class ProjectActivity : AppCompatActivity() {
     lateinit var gson: Gson
     @Inject
     lateinit var userManager: UserManager
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.project_opt_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.edit_project -> {
+                //MODIFY
+                val dialog = MainCreateProject(model.project)
+                dialog.show(supportFragmentManager, dialog.tag)
+                true
+            }
+            R.id.delete_project -> {
+                //DELETE
+                App.projects.remove(model.project)
+                userManager.saveProjects()
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project)
 
+        setSupportActionBar(toolbar)
         model = ViewModelProviders.of(this@ProjectActivity)[ProjectViewModel::class.java]
         App.injector.inject(this@ProjectActivity)
         if(model.project == null) {
@@ -63,23 +93,6 @@ class ProjectActivity : AppCompatActivity() {
         view_pager.adapter = ProjectFragmentsAdapter(lifecycle, supportFragmentManager)
         view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        more_options.setOnClickListener {
-            MaterialDialog(this@ProjectActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
-                listItems(R.array.project_options) { _, index, _ ->
-                        when(index){
-                            0 -> {
-                                //EDIT
-                                val dialog = MainCreateProject(model.project)
-                                dialog.show(supportFragmentManager, dialog.tag)
-                            }
-                            else -> {
-                                //DELETE
-
-                            }
-                        }
-                }
-            }
-        }
         TabLayoutMediator(tabLayout, view_pager, true,
             TabLayoutMediator.OnConfigureTabCallback { tab, position ->
                 when(position){
