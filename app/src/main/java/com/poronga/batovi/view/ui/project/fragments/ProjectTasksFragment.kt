@@ -159,7 +159,7 @@ class ProjectTasksFragment : Fragment() {
                 nameLayout.error = if(name.text.isNullOrEmpty()){
                     isSuccess=false
                     "Name is empty!"
-                } else null
+                 } else null
                 descriptionLayout.error = if(description.text.isNullOrEmpty()){
                     isSuccess=false
                     "Description is empty!"

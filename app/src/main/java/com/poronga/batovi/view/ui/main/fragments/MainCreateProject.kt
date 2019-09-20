@@ -30,13 +30,12 @@ import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
-class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class MainCreateProject(val updatedProject: Project?) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var userManager: UserManager
     lateinit var model: MainViewModel
     var isUpdating = false
-
     val tagsList = mutableListOf<String?>()
     val languageList= mutableListOf<String?>()
 
@@ -65,9 +64,12 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
         App.injector.inject(this@MainCreateProject)
         if(updatedProject != null){
             isUpdating = true
+            btnCreateProject.text="Update Project"
+            toolbar.title="${updatedProject.name}"
             fillForm()
         } else {
-
+            btnCreateProject.text="Create Project"
+            toolbar.title="New Project"
         }
 
             model = ViewModelProviders.of(this)[MainViewModel::class.java]
@@ -78,33 +80,57 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
             chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
             chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
             btnAddTag.setOnClickListener {
-                if (!txtTaskName.text.isNullOrEmpty()) {
-                    val chip = Chip(context)
-                    chip.setPadding(8)
-                    chip.text = txtTaskName.text
-                    chip.setCloseIconResource(R.drawable.ic_close24dp)
-                    chip.isCloseIconVisible = true
-                    chipgroupTag.addView(chip)
-                    txtTaskName.text!!.clear()
-                    chip.setOnCloseIconClickListener {
-                        chipgroupTag.removeView(chip)
+                if (!txtTagsName.text.isNullOrEmpty()) {
+                    var alreadyExists=false
+
+                    for(chip in chipgroupTag){
+                        chip as Chip
+                        if (chip.text.toString() == txtTagsName.text.toString()){
+                            alreadyExists=true
+                            txtTagsNameLayout.error="Tag already exists"
+                        }
                     }
+
+                    if(!alreadyExists){
+                        txtProjectNameLayout.error=null
+                        val chip = Chip(context)
+                        chip.setPadding(8)
+                        chip.text = txtTagsName.text
+                        chip.setCloseIconResource(R.drawable.ic_close24dp)
+                        chip.isCloseIconVisible = true
+                        chipgroupTag.addView(chip)
+                        txtTagsName.text!!.clear()
+                        chip.setOnCloseIconClickListener {
+                            chipgroupTag.removeView(chip)
+                        }
+                    }
+
                 } else {
-                    txtTaskName.error = "Tag is empty!"
+                    txtTagsName.error = "Tag is empty!"
                 }
             }
             btnAddLanguages.setOnClickListener {
                 if (!txtProjectLanguages.text.isNullOrEmpty()) {
-                    val chip = Chip(context)
-                    chip.setPadding(8)
-                    chip.text = txtProjectLanguages.text
-                    chip.setCloseIconResource(R.drawable.ic_close24dp)
-                    chip.isCloseIconVisible = true
-                    chipgroupLanguages.addView(chip)
-                    txtProjectLanguages.text!!.clear()
-                    chip.setOnCloseIconClickListener {
-                        chipgroupLanguages.removeView(chip)
-                        languageList.remove(txtProjectLanguages.text.toString())
+                    var alreadyExists=false
+                    for(chip in chipgroupLanguages){
+                        chip as Chip
+                        if (chip.text.toString() == txtProjectLanguages.text.toString()){
+                            alreadyExists=true
+                            txtProjectLanguagesLayout.error="Tag already exists"
+                        }
+                    }
+                    if(!alreadyExists){
+                        txtProjectLanguagesLayout.error=null
+                        val chip = Chip(context)
+                        chip.setPadding(8)
+                        chip.text = txtProjectLanguages.text
+                        chip.setCloseIconResource(R.drawable.ic_close24dp)
+                        chip.isCloseIconVisible = true
+                        chipgroupLanguages.addView(chip)
+                        txtProjectLanguages.text!!.clear()
+                        chip.setOnCloseIconClickListener { chipgroupLanguages.removeView(chip)
+                            languageList.remove(txtProjectLanguages.text.toString())
+                        }
                     }
                 } else {
                     txtProjectLanguages.error = "Language is empty!"
@@ -208,7 +234,6 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
             chip.text=it
             chipgroupTag.addView(chip)
             chip.setOnCloseIconClickListener {
-                tagsList.remove(chip.text.toString())
                 chipgroupTag.removeView(chip)
             }
         }
@@ -218,9 +243,8 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
             chip.setCloseIconResource(R.drawable.ic_close24dp)
             chip.isCloseIconVisible = true
             chip.text=it
-            chipgroupTag.addView(chip)
+            chipgroupLanguages.addView(chip)
             chip.setOnCloseIconClickListener {
-                languageList.remove(chip.text.toString())
                 chipgroupLanguages.removeView(chip)
             }
         }
@@ -250,7 +274,7 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
         txtProjectName.text!!.clear()
         txtProjectDescription.text!!.clear()
         txtProjectSelecteDate.text=""
-        txtTaskName.text!!.clear()
+        txtTagsName.text!!.clear()
         txtProjectLanguages.text!!.clear()
         chipgroupTag.removeAllViews()
         chipgroupLanguages.removeAllViews()
@@ -286,7 +310,7 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
         }
     }
     fun updateProject(){
-        updatedProject = Project(
+        App.projects[App.projects.indexOf(updatedProject!!)] = Project(
             name = txtProjectName.text.toString(),
             description = txtProjectDescription.text.toString(),
             tags =tagsList,
@@ -297,6 +321,7 @@ class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePi
             thumbnailURL = null,
             difficulty = chosenDifficulty,
             completed = false)
+
         userManager.saveProjects()
     }
 
