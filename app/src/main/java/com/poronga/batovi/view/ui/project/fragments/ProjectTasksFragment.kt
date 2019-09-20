@@ -73,7 +73,9 @@ class ProjectTasksFragment : Fragment() {
 
         }
         btnNewTask.setOnClickListener {
-            createTask()
+           // createTask()
+            val dialog = MainCreateProject(model.project)
+            dialog.show(fragmentManager!!,dialog.tag)
         }
 
         btnReleaseProject.setOnClickListener {
@@ -216,8 +218,7 @@ class ProjectTasksFragment : Fragment() {
                     when(index){
                         0 -> {
                             //EDIT
-                            val dialog = MainCreateProject(model.project)
-                            dialog.show(fragmentManager!!,dialog.tag)
+
                         }
                         else -> {
                             userManager.removeTask(model.project!!.name, list!![0].name!!)

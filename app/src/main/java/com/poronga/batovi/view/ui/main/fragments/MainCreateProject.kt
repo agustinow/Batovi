@@ -200,12 +200,24 @@ class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePic
         txtProjectName.setText(actualProject!!.name)
         txtProjectDescription.setText(actualProject!!.description)
         txtProjectSelecteDate.setText(actualProject!!.dateFinish.toString())
+
         actualProject!!.tags.forEach {
-            chipgroupTag.addView(it as Chip)
+            val chip = Chip(context)
+            chip.setPadding(8)
+            chip.setCloseIconResource(R.drawable.ic_close24dp)
+            chip.isCloseIconVisible = true
+            chip.text=it
+            chipgroupTag.addView(chip)
         }
         actualProject!!.languages.forEach {
-            chipgroupLanguages.addView(it as Chip)
+            val chip = Chip(context)
+            chip.setPadding(8)
+            chip.setCloseIconResource(R.drawable.ic_close24dp)
+            chip.isCloseIconVisible = true
+            chip.text=it
+            chipgroupTag.addView(chip)
         }
+
         chosenDifficulty=actualProject!!.difficulty!!
         //imagen dificultad xdxdx
     }
