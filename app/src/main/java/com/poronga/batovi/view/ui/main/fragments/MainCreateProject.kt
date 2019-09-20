@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
-class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class MainCreateProject(var updatedProject: Project?) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var userManager: UserManager
@@ -63,7 +63,7 @@ class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePic
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.injector.inject(this@MainCreateProject)
-        if(actualProject != null){
+        if(updatedProject != null){
             isUpdating = true
             fillForm()
         } else {
@@ -197,29 +197,53 @@ class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePic
     }
 
     fun fillForm(){
-        txtProjectName.setText(actualProject!!.name)
-        txtProjectDescription.setText(actualProject!!.description)
-        txtProjectSelecteDate.setText(actualProject!!.dateFinish.toString())
-
-        actualProject!!.tags.forEach {
+        txtProjectName.setText(updatedProject!!.name)
+        txtProjectDescription.setText(updatedProject!!.description)
+        txtProjectSelecteDate.setText(formatDate(updatedProject!!.dateFinish!!))
+        updatedProject!!.tags.forEach {
             val chip = Chip(context)
             chip.setPadding(8)
             chip.setCloseIconResource(R.drawable.ic_close24dp)
             chip.isCloseIconVisible = true
             chip.text=it
             chipgroupTag.addView(chip)
+            chip.setOnCloseIconClickListener {
+                tagsList.remove(chip.text.toString())
+                chipgroupTag.removeView(chip)
+            }
         }
-        actualProject!!.languages.forEach {
+        updatedProject!!.languages.forEach {
             val chip = Chip(context)
             chip.setPadding(8)
             chip.setCloseIconResource(R.drawable.ic_close24dp)
             chip.isCloseIconVisible = true
             chip.text=it
             chipgroupTag.addView(chip)
+            chip.setOnCloseIconClickListener {
+                languageList.remove(chip.text.toString())
+                chipgroupLanguages.removeView(chip)
+            }
         }
 
-        chosenDifficulty=actualProject!!.difficulty!!
-        //imagen dificultad xdxdx
+        chosenDifficulty=updatedProject!!.difficulty!!
+        when(chosenDifficulty){
+            DIFF_JUNIOR->{
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_cup2, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Junior"
+            }
+            DIFF_NORMAL->{
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_cup1, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Normal"
+            }
+            DIFF_COMPLEX->{
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_ma3, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Complex"
+            }
+            DIFF_PRO->{
+                this@MainCreateProject.btnSelectDifficulty.icon = resources.getDrawable(R.drawable.ic_coffe_ma1, resources.newTheme())
+                this@MainCreateProject.btnSelectDifficulty.text="Professional"
+            }
+        }
     }
 
     fun clearForm(){
@@ -262,7 +286,7 @@ class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePic
         }
     }
     fun updateProject(){
-        actualProject = Project(
+        updatedProject = Project(
             name = txtProjectName.text.toString(),
             description = txtProjectDescription.text.toString(),
             tags =tagsList,
@@ -321,8 +345,8 @@ class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePic
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        with(activity as MainActivity){
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        if(activity is MainActivity){
+            activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
         super.onDismiss(dialog)
     }

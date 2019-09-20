@@ -73,9 +73,7 @@ class ProjectTasksFragment : Fragment() {
 
         }
         btnNewTask.setOnClickListener {
-           // createTask()
-            val dialog = MainCreateProject(model.project)
-            dialog.show(fragmentManager!!,dialog.tag)
+            createTask()
         }
 
         btnReleaseProject.setOnClickListener {
