@@ -46,10 +46,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //LOAD VIEW MODEL
         model = ViewModelProviders.of(this@MainActivity)[MainViewModel::class.java]
-        App.projects = sampleProjects.toMutableList()
-        App.recentProjects= mutableListOf()
         //INJECT
         App.injector.inject(this@MainActivity)
+        App.projects = userManager.getProjects()!!
+        App.recentProjects= mutableListOf()
         userManager.onXPChanged = {
             resetProgressBar()
             if(it){
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
         userManager.onProjectCreated={
-              Snackbar.make(main_layout, "${it.name} Created!", Snackbar.LENGTH_SHORT)
+            Snackbar.make(main_layout, "${it.name} Created!", Snackbar.LENGTH_SHORT)
             .setBackgroundTint(getColor(R.color.colorPrimary))
             .setTextColor(Color.WHITE)
             .show()
@@ -109,10 +109,11 @@ class MainActivity : AppCompatActivity() {
             itemAbout.icon= ImageHolder(resources.getDrawable(R.drawable.ic_chart,resources.newTheme()))
         val itemInfo = PrimaryDrawerItem().withIdentifier(2).withName("About")
             itemInfo.icon= ImageHolder(resources.getDrawable(R.drawable.ico_info,resources.newTheme()))
-        val itemAchievements= PrimaryDrawerItem().withIdentifier(2).withName("Achievements")
+        val itemAchievements= PrimaryDrawerItem().withIdentifier(3).withName("Achievements")
             itemAchievements.icon= ImageHolder(resources.getDrawable(R.drawable.ic_trofe,resources.newTheme()))
-        val itemAdd = SecondaryDrawerItem().withIdentifier(3).withName("New Project")
+        val itemAdd = SecondaryDrawerItem().withIdentifier(4).withName("New Project")
             itemAdd.icon= ImageHolder(resources.getDrawable(R.drawable.ic_add,resources.newTheme()))
+        val itemSampleData = SecondaryDrawerItem().withIdentifier(5).withName("Load Sample Data")
 
         drawerHeader = LayoutInflater.from(this).inflate(R.layout.drawer_top_menu, null, false)
         drawerHeader.btn_user_img.setOnClickListener {
@@ -126,7 +127,8 @@ class MainActivity : AppCompatActivity() {
                 itemAbout,
                 itemInfo,
                 itemAchievements,
-                itemAdd
+                itemAdd,
+                itemSampleData
             )
             .withHeader(drawerHeader)
             .withToolbar(toolbar as Toolbar)
@@ -137,8 +139,11 @@ class MainActivity : AppCompatActivity() {
                     drawerItem: IDrawerItem<*>
                 ): Boolean {
                     //DO STUFF
-                     loadFragment(position)
-                return false
+                    if(position == 6) {
+                        App.projects = sampleProjects.toMutableList()
+                        userManager.saveProjects()
+                    } else loadFragment(position)
+                    return false
                 }
             })
             .build()

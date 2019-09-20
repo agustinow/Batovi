@@ -87,6 +87,23 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
         return gson.fromJson(projectsJson, projectsType)
     }
 
+    fun removeTask(projectName: String, taskName: String): Boolean{
+        val project = App.projects.find{
+            it.name == projectName
+        }
+        if(project != null){
+            val task = project.tasks!!.find {
+                it.name == taskName
+            }
+            if(task != null){
+                App.projects[App.projects.indexOf(project)].tasks!!.remove(task)
+                return true
+            }
+            return false
+        }
+        return false
+    }
+
     fun giveAchievementent(id:Int){
         if(!App.currentUser!!.achievements.contains(id)){
             App.currentUser!!.achievements.add(id)

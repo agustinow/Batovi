@@ -4,4 +4,13 @@
         <item>Choose from gallery</item>
         <item>Cancel</item>
     </string-array>
+
+    <string-array name="one_task_selected">
+        <item>Edit task</item>
+        <item>Delete task</item>
+    </string-array>
+
+    <string-array name="n_tasks_selected">
+        <item>Delete tasks</item>
+    </string-array>
 </resources>

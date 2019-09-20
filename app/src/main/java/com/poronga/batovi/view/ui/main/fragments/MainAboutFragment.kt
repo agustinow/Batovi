@@ -49,7 +49,7 @@ class MainAboutFragment : Fragment() {
             PropertyValuesHolder.ofFloat("scaleX", 1.2f),
             PropertyValuesHolder.ofFloat("scaleY", 1.2f)
         ).apply{
-            duration = 500
+            duration = (model.heartbeatSpeedLevel * 100).toLong()
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
             start()
@@ -60,9 +60,9 @@ class MainAboutFragment : Fragment() {
             addFrame(resources.getDrawable(R.drawable.gradient_three, resources.newTheme()), 1000)
             addFrame(resources.getDrawable(R.drawable.gradient_two, resources.newTheme()), 1000)
             addFrame(resources.getDrawable(R.drawable.gradient_four, resources.newTheme()), 1000)
-            setEnterFadeDuration(1000)
-            setExitFadeDuration(1000)
-            setDuration(1000)
+            setEnterFadeDuration((model.heartbeatSpeedLevel * 100).toInt())
+            setExitFadeDuration((model.heartbeatSpeedLevel * 100).toInt())
+            setDuration((model.heartbeatSpeedLevel * 100).toInt())
         }
         fragment_main_about_layout.background = drawable
         drawable.start()
