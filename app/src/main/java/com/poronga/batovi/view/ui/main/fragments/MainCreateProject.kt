@@ -30,11 +30,12 @@ import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
-class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class MainCreateProject(var actualProject: Project?) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var userManager: UserManager
     lateinit var model: MainViewModel
+    var isUpdating = false
 
     val tagsList = mutableListOf<String?>()
     val languageList= mutableListOf<String?>()
@@ -62,124 +63,151 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.injector.inject(this@MainCreateProject)
-        model = ViewModelProviders.of(this)[MainViewModel::class.java]
-        toolbar.setNavigationOnClickListener{
-            dismiss()
-        }
-        txtProjectNameLayout.requestFocus()
-        chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
-        chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
-        btnAddTag.setOnClickListener {
-            if (!txtTaskName.text.isNullOrEmpty()) {
-                val chip = Chip(context)
-                chip.setPadding(8)
-                chip.text = txtTaskName.text
-                chip.setCloseIconResource(R.drawable.ic_close24dp)
-                chip.isCloseIconVisible = true
-                chipgroupTag.addView(chip)
-                txtTaskName.text!!.clear()
-                chip.setOnCloseIconClickListener {
-                    chipgroupTag.removeView(chip)
-                }
-            } else {
-                txtTaskName.error = "Tag is empty!"
-            }
-        }
-        btnAddLanguages.setOnClickListener {
-            if(!txtProjectLanguages.text.isNullOrEmpty()){
-                val chip = Chip(context)
-                chip.setPadding(8)
-                chip.text=txtProjectLanguages.text
-                chip.setCloseIconResource(R.drawable.ic_close24dp)
-                chip.isCloseIconVisible=true
-                chipgroupLanguages.addView(chip)
-                txtProjectLanguages.text!!.clear()
-                chip.setOnCloseIconClickListener{
-                    chipgroupLanguages.removeView(chip)
-                    languageList.remove(txtProjectLanguages.text.toString())
-                }
-            }else{
-                txtProjectLanguages.error= "Language is empty!"
-            }
-        }
-        btnSelectDifficulty.setOnClickListener {
-            askDifficulty()
-        }
-        btnAddTime.setOnClickListener {
-            val now = Calendar.getInstance()
-            val dpd = DatePickerDialog.newInstance(
-                this@MainCreateProject,
-                now.get(Calendar.YEAR), // Initial year selection
-                now.get(Calendar.MONTH), // Initial month selection
-                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
-            )
-            dpd.show(fragmentManager!!,"Datepickerdialog")
-            now.get(Calendar.DATE)
+        if(actualProject != null){
+            isUpdating = true
+            fillForm()
+        } else {
+
         }
 
-        imgCleanForm.setOnClickListener{
-            clearForm()
-        }
-
-        txtProjectName.addTextChangedListener(object: TextWatcher{
-
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                var nameExists = false
-                App.projects.forEach{
-                    if(it.name == txtProjectName.text.toString()){
-                        nameExists = true
-                    }
-                }
-                if(nameExists) txtProjectNameLayout.error = "There is already a project with that name!"
-                else txtProjectNameLayout.error = null
-
-            }
-
-        })
-
-        btnAddTask.setOnClickListener {
-            var isSuccessful=true
-            txtProjectNameLayout.error = if(txtProjectName.text.isNullOrEmpty()){
-              isSuccessful = false
-               "Project Name is empty!"
-            } else null
-            txtProjectDescriptionLayout.error = if(txtProjectDescription.text.isNullOrEmpty()){
-                isSuccessful = false
-                "Project Description is empty!"
-            } else null
-            if (chosenDifficulty==0){
-                isSuccessful=false
-            }
-            if(txtProjectSelecteDate.text.isNullOrEmpty()){
-                isSuccessful=false
-
-            }
-            chipgroupTag.forEach {
-                tagsList.add((it as Chip).text.toString())
-            }
-            chipgroupLanguages.forEach {
-                languageList.add((it as Chip).text.toString())
-            }
-            if (isSuccessful){
-                newProject()
+            model = ViewModelProviders.of(this)[MainViewModel::class.java]
+            toolbar.setNavigationOnClickListener {
                 dismiss()
             }
+            txtProjectNameLayout.requestFocus()
+            chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
+            chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
+            btnAddTag.setOnClickListener {
+                if (!txtTaskName.text.isNullOrEmpty()) {
+                    val chip = Chip(context)
+                    chip.setPadding(8)
+                    chip.text = txtTaskName.text
+                    chip.setCloseIconResource(R.drawable.ic_close24dp)
+                    chip.isCloseIconVisible = true
+                    chipgroupTag.addView(chip)
+                    txtTaskName.text!!.clear()
+                    chip.setOnCloseIconClickListener {
+                        chipgroupTag.removeView(chip)
+                    }
+                } else {
+                    txtTaskName.error = "Tag is empty!"
+                }
+            }
+            btnAddLanguages.setOnClickListener {
+                if (!txtProjectLanguages.text.isNullOrEmpty()) {
+                    val chip = Chip(context)
+                    chip.setPadding(8)
+                    chip.text = txtProjectLanguages.text
+                    chip.setCloseIconResource(R.drawable.ic_close24dp)
+                    chip.isCloseIconVisible = true
+                    chipgroupLanguages.addView(chip)
+                    txtProjectLanguages.text!!.clear()
+                    chip.setOnCloseIconClickListener {
+                        chipgroupLanguages.removeView(chip)
+                        languageList.remove(txtProjectLanguages.text.toString())
+                    }
+                } else {
+                    txtProjectLanguages.error = "Language is empty!"
+                }
+            }
+            btnSelectDifficulty.setOnClickListener {
+                askDifficulty()
+            }
+            btnAddTime.setOnClickListener {
+                val now = Calendar.getInstance()
+                val dpd = DatePickerDialog.newInstance(
+                    this@MainCreateProject,
+                    now.get(Calendar.YEAR), // Initial year selection
+                    now.get(Calendar.MONTH), // Initial month selection
+                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                )
+                dpd.show(fragmentManager!!, "Datepickerdialog")
+                now.get(Calendar.DATE)
+            }
 
+            imgCleanForm.setOnClickListener {
+                clearForm()
+            }
+
+            txtProjectName.addTextChangedListener(object : TextWatcher {
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    var nameExists = false
+                    App.projects.forEach {
+                        if (it.name == txtProjectName.text.toString()) {
+                            nameExists = true
+                        }
+                    }
+                    if (nameExists) txtProjectNameLayout.error =
+                        "There is already a project with that name!"
+                    else txtProjectNameLayout.error = null
+
+                }
+
+            })
+
+            btnCreateProject.setOnClickListener {
+                var isSuccessful = true
+                txtProjectNameLayout.error = if (txtProjectName.text.isNullOrEmpty()) {
+                    isSuccessful = false
+                    "Project Name is empty!"
+                } else null
+                txtProjectDescriptionLayout.error =
+                    if (txtProjectDescription.text.isNullOrEmpty()) {
+                        isSuccessful = false
+                        "Project Description is empty!"
+                    } else null
+                if (chosenDifficulty == 0) {
+                    isSuccessful = false
+                }
+                if (txtProjectSelecteDate.text.isNullOrEmpty()) {
+                    isSuccessful = false
+
+                }
+                chipgroupTag.forEach {
+                    tagsList.add((it as Chip).text.toString())
+                }
+                chipgroupLanguages.forEach {
+                    languageList.add((it as Chip).text.toString())
+                }
+                if (isSuccessful) {
+                    if (!isUpdating) {
+                        newProject()
+                    } else {
+                        updateProject()
+                    }
+                    dismiss()
+                }
+
+            }
+
+    }
+
+    fun fillForm(){
+        txtProjectName.setText(actualProject!!.name)
+        txtProjectDescription.setText(actualProject!!.description)
+        txtProjectSelecteDate.setText(actualProject!!.dateFinish.toString())
+        actualProject!!.tags.forEach {
+            chipgroupTag.addView(it as Chip)
         }
-
+        actualProject!!.languages.forEach {
+            chipgroupLanguages.addView(it as Chip)
+        }
+        chosenDifficulty=actualProject!!.difficulty!!
+        //imagen dificultad xdxdx
     }
 
     fun clearForm(){
@@ -210,7 +238,30 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
             difficulty = chosenDifficulty,
             completed = false)
         userManager.createProject(actualProject)
-
+        userManager.giveXp(5)
+        if (App.projects.size==1){
+            userManager.giveAchievementent(ACHIV_NEWBORN)
+        }
+        val uncompletedProjects = App.projects.filter {
+            !it.completed
+        }.size
+        if(uncompletedProjects>=5){
+            userManager.giveAchievementent(ACHIV_SUICIDAL)
+        }
+    }
+    fun updateProject(){
+        actualProject = Project(
+            name = txtProjectName.text.toString(),
+            description = txtProjectDescription.text.toString(),
+            tags =tagsList,
+            languages =languageList,
+            tasks = mutableListOf(),
+            dateCreated = Date(),
+            dateFinish = SimpleDateFormat("M/d/yyyy").parse(txtProjectSelecteDate.text.toString()),
+            thumbnailURL = null,
+            difficulty = chosenDifficulty,
+            completed = false)
+        userManager.saveProjects()
     }
 
     override fun onStart() {
@@ -266,9 +317,9 @@ class MainCreateProject : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     companion object {
         @JvmStatic
-        fun newInstance() = MainCreateProject()
+        fun newInstance() = MainCreateProject(null)
         fun display(fragmentManager: FragmentManager): MainCreateProject {
-            val exampleDialog = MainCreateProject()
+            val exampleDialog = MainCreateProject(null)
             exampleDialog.show(fragmentManager, TAG)
             return exampleDialog
         }

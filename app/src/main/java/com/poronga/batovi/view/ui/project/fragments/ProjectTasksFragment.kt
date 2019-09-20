@@ -15,31 +15,29 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.DialogBehavior
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.poronga.batovi.App
+import com.poronga.batovi.*
 import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Task
-import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.adapter.TaskAdapter
 import com.poronga.batovi.view.adapter.TaskAdapterDetails
-import com.poronga.batovi.view.ui.main.MainActivity
-import com.poronga.batovi.view.ui.project.ProjectActivity
+import com.poronga.batovi.view.ui.main.fragments.MainCreateProject
 import com.poronga.batovi.viewmodel.project.ProjectViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_project.*
-import kotlinx.android.synthetic.main.element_task.*
 import kotlinx.android.synthetic.main.fragment_project_tasks.*
+import javax.inject.Inject
 
 
 class ProjectTasksFragment : Fragment() {
     lateinit var model: ProjectViewModel
     lateinit var adapter: TaskAdapter
+    @Inject
+    lateinit var userManager: com.poronga.batovi.services.UserManager
+
     lateinit var tracker: SelectionTracker<Long>
     var selection: Selection<Long>? = null
     lateinit var myMaterialDialog: MaterialDialog
@@ -55,6 +53,7 @@ class ProjectTasksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[ProjectViewModel::class.java]
+        App.injector.inject(this@ProjectTasksFragment)
         myMaterialDialog = MaterialDialog(context!!, MaterialDialog.DEFAULT_BEHAVIOR)
         adapter = TaskAdapter(context!!) {
             Toast.makeText(context!!, "Task ${it.name} Removed", Toast.LENGTH_SHORT).show()
@@ -75,6 +74,30 @@ class ProjectTasksFragment : Fragment() {
         }
         btnNewTask.setOnClickListener {
             createTask()
+        }
+
+        btnReleaseProject.setOnClickListener {
+            if (!model.project!!.completed){
+                btnReleaseProject.text="Release Project"
+                model.project!!.completed=true
+                val completedProject=App.projects.filter {
+                    it.completed
+                }.size
+                when{
+                    (completedProject>5)->{
+                        userManager.giveAchievementent(ACHIV_PROJECT1)
+                    }
+                    (completedProject>10)->{
+                        userManager.giveAchievementent(ACHIV_PROJECT2)
+                    }
+                    (completedProject>15)->{
+                        userManager.giveAchievementent(ACHIV_PROJECT3)
+                    }
+                }
+            }else{
+                btnReleaseProject.text="Resume Project"
+                model.project!!.completed=false
+            }
         }
     }
 
@@ -158,6 +181,14 @@ class ProjectTasksFragment : Fragment() {
                     description.text!!.clear()
                     Toast.makeText(context,"Task Created",Toast.LENGTH_SHORT).show()
                     loadTasks()
+                    when{
+                        (model.project!!.tasks!!.size>5)->{
+                            userManager.giveAchievementent(ACHIV_LATERMOM)
+                        }
+                        (model.project!!.tasks!!.size>20)->{
+                            userManager.giveAchievementent(ACHIV_IMPOSSIBLE)
+                        }
+                    }
                 }
             }
             findViewById<ImageButton>(R.id.imgCleanForm).setOnClickListener {
@@ -179,17 +210,18 @@ class ProjectTasksFragment : Fragment() {
         activity!!.more_options.setOnClickListener {
             myMaterialDialog.show{
                 listItems(R.array.one_task_selected) { _, index, _ ->
+                    val list = selection?.map {
+                        adapter.tasks[it.toInt()]
+                    }?.toList()
                     when(index){
                         0 -> {
                             //EDIT
+                            val dialog = MainCreateProject(model.project)
+                            dialog.show(fragmentManager!!,dialog.tag)
                         }
                         else -> {
-                            val list = selection?.map {
-                                adapter.tasks[it.toInt()]
-                            }?.toList()
-                            (activity as ProjectActivity).userManager.removeTask(model.project!!.name, list!![0].name!!)
-                            
-                            (activity as ProjectActivity).userManager.saveProjects()
+                            userManager.removeTask(model.project!!.name, list!![0].name!!)
+                            userManager.saveProjects()
                             loadTasks()
 
                             Toast.makeText(context!!, "Meme", Toast.LENGTH_SHORT).show()
@@ -210,10 +242,10 @@ class ProjectTasksFragment : Fragment() {
                         adapter.tasks[it.toInt()]
                     }?.toList()
                     for (element in list!!){
-                        (activity as ProjectActivity).userManager.removeTask(model.project!!.name, element.name!!)
+                        userManager.removeTask(model.project!!.name, element.name!!)
                     }
 
-                    (activity as ProjectActivity).userManager.saveProjects()
+                    userManager.saveProjects()
                     loadTasks()
 
                     Toast.makeText(context!!, "Meme", Toast.LENGTH_SHORT).show()

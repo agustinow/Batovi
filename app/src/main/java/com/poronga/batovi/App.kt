@@ -26,6 +26,5 @@ open class App: Application() {
         var currentUser: User? = null
         lateinit var projects: MutableList<Project>
         lateinit var recentProjects:MutableList<Project>
-        lateinit var selectedTask:MutableList<Task>
     }
 }

@@ -61,7 +61,7 @@ val baseAchievements: List<Achievement> = listOf(
     Achievement(
         id = 0,
         name = "Newborn",
-        description = "Finish you first project",
+        description = "Create you first project",
         difficulty = 0,
         xp = 20,
         imageID = R.drawable.newborn

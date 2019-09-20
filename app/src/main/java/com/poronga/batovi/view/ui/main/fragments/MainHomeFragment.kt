@@ -62,6 +62,7 @@ class MainHomeFragment : Fragment() {
             val intent = Intent(context, ProjectActivity::class.java)
             intent.putExtra(EXTRA_PROJECT_NAME, it.name)
             startActivity(intent)
+            model.projecto=it
             App.recentProjects.add(it)
             if(App.recentProjects.size>5){
                 App.recentProjects.removeAt(0)
