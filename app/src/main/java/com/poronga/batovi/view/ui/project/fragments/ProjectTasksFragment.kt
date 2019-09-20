@@ -40,7 +40,7 @@ class ProjectTasksFragment : Fragment() {
 
     lateinit var tracker: SelectionTracker<Long>
     var selection: Selection<Long>? = null
-    lateinit var myMaterialDialog: MaterialDialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,15 +54,10 @@ class ProjectTasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProviders.of(activity!!)[ProjectViewModel::class.java]
         App.injector.inject(this@ProjectTasksFragment)
-        myMaterialDialog = MaterialDialog(context!!, MaterialDialog.DEFAULT_BEHAVIOR)
-        adapter = TaskAdapter(context!!) {
-            Toast.makeText(context!!, "Task ${it.name} Removed", Toast.LENGTH_SHORT).show()
-            model.project!!.tasks!!.remove(it)
-            //App.selectedTask.add(it)
-            //it.completed=true
-
+        adapter = TaskAdapter(context!!) { task, checked ->
+            if (userManager.changeTaskCompletedStatus(model.project!!, task, checked)) userManager.saveProjects()
+            else Toast.makeText(context!!, "Unexpected error", Toast.LENGTH_SHORT).show()
             loadTasks()
-            //(activity!! as ProjectActivity).userManager.giveAchievementent(4)
         }
 
         loadTasks()
@@ -203,11 +198,14 @@ class ProjectTasksFragment : Fragment() {
     }
 
     fun noSelected(){
+        /*
         activity!!.more_options.visibility = View.GONE
         activity!!.more_options.setOnClickListener {  }
+        */
     }
 
     fun oneSelected(){
+        /*
         activity!!.more_options.visibility = View.VISIBLE
         activity!!.more_options.setOnClickListener {
             myMaterialDialog.show{
@@ -223,18 +221,27 @@ class ProjectTasksFragment : Fragment() {
                         else -> {
                             userManager.removeTask(model.project!!.name, list!![0].name!!)
                             userManager.saveProjects()
+                            val list = selection?.map {
+                                adapter.tasks[it.toInt()]
+                            }?.toList()
+                            userManager.removeTask(model.project!!.name, list!![0].name!!)
+
+                            userManager.saveProjects()
                             loadTasks()
 
-                            Toast.makeText(context!!, "Meme", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Meme", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                 }
             }
         }
+
+         */
     }
 
     fun nSelected(){
+        /*
         activity!!.more_options.visibility = View.VISIBLE
         activity!!.more_options.setOnClickListener {
             myMaterialDialog.show{
@@ -249,10 +256,12 @@ class ProjectTasksFragment : Fragment() {
                     userManager.saveProjects()
                     loadTasks()
 
-                    Toast.makeText(context!!, "Meme", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Meme", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
+         */
     }
 
     companion object {

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -13,6 +15,7 @@ import com.poronga.batovi.EXTRA_PROJECT_NAME
 import com.poronga.batovi.R
 import com.poronga.batovi.services.UserManager
 import com.poronga.batovi.view.adapter.ProjectFragmentsAdapter
+import com.poronga.batovi.view.ui.main.fragments.MainCreateProject
 import com.poronga.batovi.viewmodel.project.ProjectViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_project.*
@@ -60,6 +63,23 @@ class ProjectActivity : AppCompatActivity() {
         view_pager.adapter = ProjectFragmentsAdapter(lifecycle, supportFragmentManager)
         view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
+        more_options.setOnClickListener {
+            MaterialDialog(this@ProjectActivity, MaterialDialog.DEFAULT_BEHAVIOR).show{
+                listItems(R.array.project_options) { _, index, _ ->
+                        when(index){
+                            0 -> {
+                                //EDIT
+                                val dialog = MainCreateProject(model.project)
+                                dialog.show(supportFragmentManager, dialog.tag)
+                            }
+                            else -> {
+                                //DELETE
+
+                            }
+                        }
+                }
+            }
+        }
         TabLayoutMediator(tabLayout, view_pager, true,
             TabLayoutMediator.OnConfigureTabCallback { tab, position ->
                 when(position){
