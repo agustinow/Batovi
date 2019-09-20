@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.CompoundButton
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.poronga.batovi.R
 import com.poronga.batovi.model.json.Task
 import kotlinx.android.synthetic.main.element_task.view.*
 
-class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(val context: Context, val onCheckedChange: (Task, Boolean) -> (Unit)): RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     var tasks: MutableList<Task> = mutableListOf()
     var tracker: SelectionTracker<Long>? = null
 
@@ -87,6 +89,7 @@ class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): Re
         val description = itemView.element_task_info_description
         val difficulty = itemView.element_task_difficulty
         val guideline = itemView.element_task_guideline
+        val completed = itemView.element_task_completed
 
         fun bind(task: Task, isActivated: Boolean){
             name.text = if(task.completed) "${task.name} (completed)"
@@ -105,6 +108,7 @@ class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): Re
                     "Hard"
                 }
             }
+            completed.isChecked = task.completed
             val onLayoutClick = {
                 if(innerLayout.visibility == View.GONE){
                     innerLayout.visibility = View.VISIBLE
@@ -126,6 +130,7 @@ class TaskAdapter(val context: Context, val onClickAction: (Task) -> (Unit)): Re
                     })
                 }
             }
+            completed.setOnCheckedChangeListener { _, isChecked -> onCheckedChange(task, isChecked) }
             expander.setOnClickListener { onLayoutClick() }
             layout.setOnClickListener { onLayoutClick() }
             //layout.setOnLongClickListener {

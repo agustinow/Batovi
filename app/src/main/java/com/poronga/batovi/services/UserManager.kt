@@ -15,6 +15,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.poronga.batovi.*
 import com.poronga.batovi.model.json.Project
+import com.poronga.batovi.model.json.Task
 import com.poronga.batovi.model.json.User
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -102,6 +103,13 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
             return false
         }
         return false
+    }
+
+    fun changeTaskCompletedStatus(project: Project, task: Task, status: Boolean): Boolean{
+        val projectIndex = App.projects.indexOf(project) ?: return false
+        val taskIndex = project.tasks?.indexOf(task) ?: return false
+        App.projects[projectIndex].tasks!![taskIndex].completed = status
+        return true
     }
 
     fun giveAchievementent(id:Int){
