@@ -1,241 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/createProject_layout"
+    android:id="@+id/content_layout"
     android:layout_height="match_parent">
 
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:background="?attr/colorPrimary"
+        android:paddingStart="6dp"
+        android:paddingEnd="16dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_prev24dp"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:title="New Project"
+        app:titleTextColor="@color/colorBackground" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateProject"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/create_project"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/scroll_view"
+        app:layout_constraintStart_toEndOf="@+id/scroll_view" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_inner"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingStart="6dp"
-            android:paddingEnd="16dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_prev24dp"
-            app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:title="New Project"
-            app:titleTextColor="@color/colorBackground" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout_editor_absoluteY="50dp">
-
-        <ImageButton
-            android:id="@+id/imgCleanForm"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
-            app:layout_constraintTop_toTopOf="@+id/btnAddTime"
-            app:srcCompat="@drawable/icbasura" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipgroupTag"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_anchor="@+id/frameLayout4"
-            app:layout_anchorGravity="center"
-            app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
-            app:layout_constraintStart_toStartOf="@+id/txtTagsNameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtTagsNameLayout">
-
-        </com.google.android.material.chip.ChipGroup>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddLanguages"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="@+id/txtProjectLanguagesLayout"
-            app:layout_constraintEnd_toEndOf="@+id/txtProjectDescriptionLayout"
-            app:layout_constraintStart_toEndOf="@+id/txtProjectLanguagesLayout"
-            app:layout_constraintTop_toTopOf="@+id/txtProjectLanguagesLayout" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSelectDifficulty"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/select_difficulty"
-            android:textAllCaps="false"
-            android:textSize="15sp"
-            app:icon="@drawable/ic_coffe_cup2"
-            app:iconSize="35dp"
-            app:iconTint="@color/colorBackground"
-            app:iconTintMode="multiply"
-            app:layout_constraintEnd_toEndOf="@+id/txtTagsNameLayout"
-            app:layout_constraintStart_toStartOf="@+id/txtTagsNameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/chipgroupTag" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtTagsNameLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toStartOf="@+id/btnAddTag"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectLanguagesLayout"
-            app:layout_constraintTop_toBottomOf="@+id/chipgroupLanguages">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtTagsName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tags"
-                android:inputType="text"
-                android:textSize="14sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtProjectDescriptionLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/description"
-
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="@+id/txtProjectNameLayout"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectNameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtProjectNameLayout"
-            app:startIconCheckable="false"
-            app:startIconTintMode="multiply">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtProjectDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtProjectNameLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:hint="@string/project_name"
-
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconCheckable="false"
-            app:startIconTintMode="multiply">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtProjectName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtProjectLanguagesLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/languages"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toStartOf="@+id/btnAddLanguages"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectDescriptionLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtProjectDescriptionLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtProjectLanguages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:textSize="14sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipgroupLanguages"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/btnAddLanguages"
-            app:layout_constraintStart_toStartOf="@+id/txtProjectLanguagesLayout"
-            app:layout_constraintTop_toBottomOf="@+id/txtProjectLanguagesLayout" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateProject"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="@string/create_project"
-            android:textSize="18sp"
+            android:background="@color/colorBackground"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddTag"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="@+id/txtTagsNameLayout"
-            app:layout_constraintStart_toStartOf="@+id/btnAddLanguages"
-            app:layout_constraintTop_toTopOf="@+id/txtTagsNameLayout" />
+            <ImageButton
+                android:id="@+id/imgCleanForm"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
+                app:layout_constraintTop_toTopOf="@+id/btnAddTime"
+                app:srcCompat="@drawable/icbasura" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddTime"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginTop="8dp"
-            android:text="End Date"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            app:icon="@drawable/calendar"
-            app:iconSize="30dp"
-            app:iconTint="@color/colorBackground"
-            app:iconTintMode="multiply"
-            app:layout_constraintStart_toStartOf="@+id/btnSelectDifficulty"
-            app:layout_constraintTop_toBottomOf="@+id/btnSelectDifficulty" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipgroupTag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_anchor="@+id/constraint_inner"
+                app:layout_anchorGravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
+                app:layout_constraintStart_toStartOf="@+id/txtTaskNameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/txtTaskNameLayout">
 
-        <TextView
-            android:id="@+id/txtProjectSelecteDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="@+id/btnAddTime"
-            app:layout_constraintStart_toEndOf="@+id/btnAddTime"
-            app:layout_constraintTop_toTopOf="@+id/btnAddTime"
-            tools:text="30/07/2019" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddLanguages"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/add"
+                app:layout_constraintBottom_toBottomOf="@+id/txtProjectLanguagesLayout"
+                app:layout_constraintEnd_toEndOf="@+id/txtProjectDescriptionLayout"
+                app:layout_constraintStart_toEndOf="@+id/txtProjectLanguagesLayout"
+                app:layout_constraintTop_toTopOf="@+id/txtProjectLanguagesLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelectDifficulty"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/select_difficulty"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                app:icon="@drawable/ic_coffe_cup2"
+                app:iconSize="35dp"
+                app:iconTint="@color/colorBackground"
+                app:iconTintMode="multiply"
+                app:layout_constraintEnd_toEndOf="@+id/txtTaskNameLayout"
+                app:layout_constraintStart_toStartOf="@+id/txtTaskNameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/chipgroupTag" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtTaskNameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@+id/btnAddTag"
+                app:layout_constraintStart_toStartOf="@+id/txtProjectLanguagesLayout"
+                app:layout_constraintTop_toBottomOf="@+id/chipgroupLanguages">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtTaskName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tags"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtProjectDescriptionLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/description"
+
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/txtProjectNameLayout"
+                app:layout_constraintStart_toStartOf="@+id/txtProjectNameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/txtProjectNameLayout"
+                app:startIconCheckable="false"
+                app:startIconTintMode="multiply">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtProjectDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtProjectNameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/project_name"
+
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconCheckable="false"
+                app:startIconTintMode="multiply">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtProjectName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtProjectLanguagesLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/languages"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@+id/btnAddLanguages"
+                app:layout_constraintStart_toStartOf="@+id/txtProjectDescriptionLayout"
+                app:layout_constraintTop_toBottomOf="@+id/txtProjectDescriptionLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtProjectLanguages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipgroupLanguages"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/btnAddLanguages"
+                app:layout_constraintStart_toStartOf="@+id/txtProjectLanguagesLayout"
+                app:layout_constraintTop_toBottomOf="@+id/txtProjectLanguagesLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddTag"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/add"
+                app:layout_constraintBottom_toBottomOf="@+id/txtTaskNameLayout"
+                app:layout_constraintStart_toStartOf="@+id/btnAddLanguages"
+                app:layout_constraintTop_toTopOf="@+id/txtTaskNameLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddTime"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="8dp"
+                android:text="End Date"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:icon="@drawable/calendar"
+                app:iconSize="30dp"
+                app:iconTint="@color/colorBackground"
+                app:iconTintMode="multiply"
+                app:layout_constraintStart_toStartOf="@+id/btnSelectDifficulty"
+                app:layout_constraintTop_toBottomOf="@+id/btnSelectDifficulty" />
+
+            <TextView
+                android:id="@+id/txtProjectSelecteDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toBottomOf="@+id/btnAddTime"
+                app:layout_constraintStart_toEndOf="@+id/btnAddTime"
+                app:layout_constraintTop_toTopOf="@+id/btnAddTime"
+                tools:text="30/07/2019" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
