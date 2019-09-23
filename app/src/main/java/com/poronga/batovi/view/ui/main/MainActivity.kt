@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         model = ViewModelProviders.of(this@MainActivity)[MainViewModel::class.java]
         //INJECT
         App.injector.inject(this@MainActivity)
-        App.projects = userManager.getProjects()!!
+        App.projects = userManager.getProjects() ?: sampleProjects.toMutableList()
         App.recentProjects= mutableListOf()
         userManager.onXPChanged = {
             resetProgressBar()

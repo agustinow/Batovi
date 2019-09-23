@@ -32,7 +32,7 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     }
 
     fun createUser(name: String, image: String?){
-        val user = User(id = 1, name = name, xp = 0, achievements = mutableListOf())
+        val user = User(id = 1, name = name, xp = 0, achievements = mutableListOf(), lvl = 1, image = image)
         if(image != null) user.image = image
         val userJson = gson.toJson(user)
         App.instance.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -85,7 +85,7 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
             .getString(PREF_PROJECTS, null)
         if(projectsJson.isNullOrEmpty()) return null
         val projectsType = object : TypeToken<MutableList<Project>>() {}.type
-        return gson.fromJson(projectsJson, projectsType)
+        return (gson.fromJson(projectsJson, projectsType))
     }
 
     fun removeTask(projectName: String, taskName: String): Boolean{
