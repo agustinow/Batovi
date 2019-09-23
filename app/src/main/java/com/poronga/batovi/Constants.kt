@@ -152,19 +152,22 @@ val sampleProjects: List<Project> = listOf(
                 name = "Create Database",
                 description = "Create the Database of the project",
                 completed = true,
-                difficulty = 1
+                difficulty = 1,
+                finishDate = java.sql.Date.valueOf("2019-08-20")
             ),
             Task(
                 name = "Create API",
                 description = "Create the API of the project",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-08-29")
             ),
             Task(
                 name = "Logic",
                 description = "Logic side of the app",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-09-21")
             ),
             Task(
                 name = "UI",
@@ -189,7 +192,8 @@ val sampleProjects: List<Project> = listOf(
                 name = "Create Database",
                 description = "Create the Database of the project",
                 completed = true,
-                difficulty = 1
+                difficulty = 1,
+                finishDate = java.sql.Date.valueOf("2019-08-29")
             ),
             Task(
                 name = "Create API",
@@ -201,7 +205,8 @@ val sampleProjects: List<Project> = listOf(
                 name = "Logic",
                 description = "Logic side of the app",
                 completed = true,
-                difficulty = 3
+                difficulty = 3,
+                finishDate = java.sql.Date.valueOf("2019-09-12")
             ),
             Task(
                 name = "UI",
@@ -251,25 +256,29 @@ val sampleProjects: List<Project> = listOf(
                 name = "Logic iOS",
                 description = "Logic side of the iOS app",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-08-04")
             ),
             Task(
                 name = "Visual iOS",
                 description = "Visual side of the iOS app",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-08-06")
             ),
             Task(
                 name = "Logic Android",
                 description = "Logic side of the Android app",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-08-03")
             ),
             Task(
                 name = "Visual Android",
                 description = "Visual side of the Android app",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2019-08-06")
             )
         ),
         dateCreated = java.sql.Date.valueOf("2019-08-01"),
@@ -288,25 +297,29 @@ val sampleProjects: List<Project> = listOf(
                 name = "Database",
                 description = "NoSQL Database",
                 completed = true,
-                difficulty = 1
+                difficulty = 1,
+                finishDate = java.sql.Date.valueOf("2014-01-10")
             ),
             Task(
                 name = "NodeJS Backend",
                 description = "Backend of the app",
                 completed = true,
-                difficulty = 1
+                difficulty = 1,
+                finishDate = java.sql.Date.valueOf("2014-01-19")
             ),
             Task(
                 name = "Angular frontend",
                 description = "Frontend of the app with Angular 8",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2014-02-17")
             ),
             Task(
                 name = "Visual frontend",
                 description = "HTML and CSS work",
                 completed = true,
-                difficulty = 2
+                difficulty = 2,
+                finishDate = java.sql.Date.valueOf("2014-02-08")
             )
         ),
         dateCreated = java.sql.Date.valueOf("2014-01-01"),
@@ -325,25 +338,29 @@ val sampleProjects: List<Project> = listOf(
                 name = "Planning",
                 description = "Planning of the application (models, technologies, learning, etc...)",
                 completed = true,
-                difficulty = 3
+                difficulty = 3,
+                finishDate = java.sql.Date.valueOf("2018-07-10")
             ),
             Task(
                 name = "Database",
                 description = "SQL Database with Informix",
                 completed = true,
-                difficulty = 3
+                difficulty = 3,
+                finishDate = java.sql.Date.valueOf("2018-08-20")
             ),
             Task(
                 name = "App backend",
                 description = "Backend of the application which connects it to the DB",
                 completed = true,
-                difficulty = 3
+                difficulty = 3,
+                finishDate = java.sql.Date.valueOf("2018-10-12")
             ),
             Task(
                 name = "App frontend",
                 description = "Frontend of the application, visual and logic of it",
                 completed = true,
-                difficulty = 3
+                difficulty = 3,
+                finishDate = java.sql.Date.valueOf("2018-11-05")
             )
 
         ),

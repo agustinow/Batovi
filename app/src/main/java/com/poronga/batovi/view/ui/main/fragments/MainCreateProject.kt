@@ -64,11 +64,11 @@ class MainCreateProject(val updatedProject: Project?) : DialogFragment(), DatePi
         App.injector.inject(this@MainCreateProject)
         if(updatedProject != null){
             isUpdating = true
-            btnCreateProject.text="Update Project"
+            btnCreateProject.text=getString(R.string.update_project)
             toolbar.title="${updatedProject.name}"
             fillForm()
         } else {
-            btnCreateProject.text="Create Project"
+            btnCreateProject.text=getString(R.string.create_project)
             toolbar.title="New Project"
         }
 

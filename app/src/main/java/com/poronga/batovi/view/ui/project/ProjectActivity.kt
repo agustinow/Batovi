@@ -49,6 +49,7 @@ class ProjectActivity : AppCompatActivity() {
             R.id.delete_project -> {
                 //DELETE
                 App.projects.remove(model.project)
+                App.recentProjects.remove(model.project)
                 userManager.saveProjects()
                 finish()
                 true

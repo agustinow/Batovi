@@ -207,6 +207,11 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(App.currentUser != null) resetProgressBar()
+    }
+
     override fun onBackPressed() {
         loadFragment(FRAG_HOME)
     }
@@ -220,7 +225,6 @@ class MainActivity : AppCompatActivity() {
                     App.currentUser!!.image = image.toString()
                     userManager.saveUser()
                     resetProgressBar()
-                    //drawerHeader.btn_user_img.setImageURI(image)
                 }
             }
         }

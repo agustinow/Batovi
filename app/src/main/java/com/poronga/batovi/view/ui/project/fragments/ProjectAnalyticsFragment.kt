@@ -49,7 +49,7 @@ class ProjectAnalyticsFragment : Fragment() {
 
     fun loadChart(){
         val entries = ArrayList<BarEntry>()
-        val texts= listOf<String>("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+        val texts= listOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
         val formatter = object : ValueFormatter() {
             override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                 return texts[value.toInt()]
@@ -57,13 +57,15 @@ class ProjectAnalyticsFragment : Fragment() {
         }
         val xAxis = chart.xAxis
         xAxis.valueFormatter=formatter
+        val tpw = model.project!!.tasksPerWeek()
         with(entries){
-            add(BarEntry(0f, 3f))
-            add(BarEntry(1f, 8f))
-            add(BarEntry(2f, 6f))
-            add(BarEntry(3f,5f))
-            add(BarEntry(5f,7f))
-            add(BarEntry(6f,6f))
+            add(BarEntry(0f, tpw[0].toFloat()))
+            add(BarEntry(1f, tpw[1].toFloat()))
+            add(BarEntry(2f, tpw[2].toFloat()))
+            add(BarEntry(3f, tpw[3].toFloat()))
+            add(BarEntry(4f, tpw[4].toFloat()))
+            add(BarEntry(5f, tpw[5].toFloat()))
+            add(BarEntry(6f, tpw[6].toFloat()))
         }
         val set = BarDataSet(entries,"BarData")
         val data = BarData(set)

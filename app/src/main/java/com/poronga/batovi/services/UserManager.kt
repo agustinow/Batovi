@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.UnsupportedOperationException
+import java.util.*
 import javax.inject.Inject
 
 class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: (String) -> (Unit), var onProjectCreated:(Project)->(Unit)) {
@@ -106,10 +107,14 @@ class UserManager(var onXPChanged: (Boolean) -> (Unit), var onAchievementGiven: 
     }
 
     fun changeTaskCompletedStatus(project: Project, task: Task, status: Boolean): Boolean{
-        val projectIndex = App.projects.indexOf(project) ?: return false
+        val projectIndex = App.projects.indexOf(project)
         val taskIndex = project.tasks?.indexOf(task) ?: return false
-        App.projects[projectIndex].tasks!![taskIndex].completed = status
-        return true
+        with (App.projects[projectIndex].tasks!![taskIndex]){
+            completed = status
+            finishDate = if(status) Date()
+            else null
+            return true
+        }
     }
 
     fun giveAchievementent(id:Int){

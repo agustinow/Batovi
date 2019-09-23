@@ -57,7 +57,7 @@ class ProjectTasksFragment : Fragment() {
         adapter = TaskAdapter(context!!) { task, checked ->
             if (userManager.changeTaskCompletedStatus(model.project!!, task, checked)) userManager.saveProjects()
             else Toast.makeText(context!!, "Unexpected error", Toast.LENGTH_SHORT).show()
-            val taskCompleted= (model.project!!.tasks)!!.filter {
+            val taskCompleted = (model.project!!.tasks)!!.filter {
                 it.completed
             }.size
 
@@ -65,7 +65,6 @@ class ProjectTasksFragment : Fragment() {
                 (taskCompleted==5)->{userManager.giveAchievementent(ACHIV_TASK1)}
                 (taskCompleted==15)->{userManager.giveAchievementent(ACHIV_TASK2)}
             }
-            loadTasks()
         }
 
         loadTasks()

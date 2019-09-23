@@ -62,11 +62,8 @@ class MainHomeFragment : Fragment() {
             val intent = Intent(context, ProjectActivity::class.java)
             intent.putExtra(EXTRA_PROJECT_NAME, it.name)
             startActivity(intent)
-            model.projecto=it
-            App.recentProjects.add(it)
-            if(App.recentProjects.size>5){
-                App.recentProjects.removeAt(0)
-            }
+            model.projecto = it
+            App.recentProjects = (listOf(it) + App.recentProjects).toMutableList()
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
@@ -87,8 +84,10 @@ class MainHomeFragment : Fragment() {
         }
         val lm = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, true)
         val decor = DividerItemDecoration(context!!, LinearLayoutManager.VERTICAL)
+        App.recentProjects = App.recentProjects.toSet().toMutableList()
+        if(App.recentProjects.size > 3) App.recentProjects = App.recentProjects.subList(0, 3)
         recentProjectAdapter.type=0
-        recentProjectAdapter.setItems(App.recentProjects)
+        recentProjectAdapter.setItems(App.recentProjects.toSet().toMutableList())
         lm.isSmoothScrollbarEnabled=true
         recycler_recent_projects.layoutManager = lm
         recycler_recent_projects.addItemDecoration(decor)
