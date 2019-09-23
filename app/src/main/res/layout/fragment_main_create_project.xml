@@ -74,8 +74,8 @@
                 app:layout_anchor="@+id/constraint_inner"
                 app:layout_anchorGravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/btnAddTag"
-                app:layout_constraintStart_toStartOf="@+id/txtTaskNameLayout"
-                app:layout_constraintTop_toBottomOf="@+id/txtTaskNameLayout">
+                app:layout_constraintStart_toStartOf="@+id/txtTagNameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/txtTagNameLayout">
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -108,7 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/chipgroupTag" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtTaskNameLayout"
+                android:id="@+id/txtTagNameLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/chipgroupLanguages">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtTaskName"
+                    android:id="@+id/txtTagName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/tags"
@@ -210,9 +210,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="@string/add"
-                app:layout_constraintBottom_toBottomOf="@+id/txtTaskNameLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/txtTagNameLayout"
                 app:layout_constraintStart_toStartOf="@+id/btnAddLanguages"
-                app:layout_constraintTop_toTopOf="@+id/txtTaskNameLayout" />
+                app:layout_constraintTop_toTopOf="@+id/txtTagNameLayout" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddTime"

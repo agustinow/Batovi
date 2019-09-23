@@ -80,14 +80,14 @@ class MainCreateProject(val updatedProject: Project?) : DialogFragment(), DatePi
             chipgroupTag.setChipSpacingVerticalResource(R.dimen.chip_spacing)
             chipgroupLanguages.setChipSpacingVerticalResource(R.dimen.chip_spacing)
             btnAddTag.setOnClickListener {
-                if (!txtTagsName.text.isNullOrEmpty()) {
+                if (!txtTagName.text.isNullOrEmpty()) {
                     var alreadyExists=false
 
                     for(chip in chipgroupTag){
                         chip as Chip
-                        if (chip.text.toString() == txtTagsName.text.toString()){
+                        if (chip.text.toString() == txtTagName.text.toString()){
                             alreadyExists=true
-                            txtTagsNameLayout.error="Tag already exists"
+                            txtTagNameLayout.error="Tag already exists"
                         }
                     }
 
@@ -95,18 +95,18 @@ class MainCreateProject(val updatedProject: Project?) : DialogFragment(), DatePi
                         txtProjectNameLayout.error=null
                         val chip = Chip(context)
                         chip.setPadding(8)
-                        chip.text = txtTagsName.text
+                        chip.text = txtTagName.text
                         chip.setCloseIconResource(R.drawable.ic_close24dp)
                         chip.isCloseIconVisible = true
                         chipgroupTag.addView(chip)
-                        txtTagsName.text!!.clear()
+                        txtTagName.text!!.clear()
                         chip.setOnCloseIconClickListener {
                             chipgroupTag.removeView(chip)
                         }
                     }
 
                 } else {
-                    txtTagsName.error = "Tag is empty!"
+                    txtTagName.error = "Tag is empty!"
                 }
             }
             btnAddLanguages.setOnClickListener {
@@ -274,7 +274,7 @@ class MainCreateProject(val updatedProject: Project?) : DialogFragment(), DatePi
         txtProjectName.text!!.clear()
         txtProjectDescription.text!!.clear()
         txtProjectSelecteDate.text=""
-        txtTagsName.text!!.clear()
+        txtTagName.text!!.clear()
         txtProjectLanguages.text!!.clear()
         chipgroupTag.removeAllViews()
         chipgroupLanguages.removeAllViews()
