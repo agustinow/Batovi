@@ -33,18 +33,44 @@ class MainInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadChart()
-        txtTotalProjects.text ="Total Projects: "+ App.projects.size.toString()
+
     }
 
 
     fun loadChart(){
         val entries = ArrayList<PieEntry>()
-        val set = PieDataSet(entries,"")
+        val set = PieDataSet(entries,"piedataset")
         val data = PieData(set)
+        val weekDays = mutableListOf(0, 0, 0, 0, 0, 0, 0)
+        var completed = 0
+        var totalTasks = 0
+        for(project in App.projects){
+            totalTasks += project.tasks!!.size
+            val tpw = project.tasksPerWeek()
+            for(i in 0..6){
+                weekDays[i] += tpw[i]
+            }
+            if(project.completed) completed++
+        }
+        var totalFinished = 0
+        for(dayTasks in weekDays){
+            totalFinished += dayTasks
+        }
+
+        txtTotalProjects.text = "Total Projects: "+ App.projects.size.toString()
+        txtPercentageProjects.text = "${(completed*100)/(App.projects.size)}% completed"
+
+        txtTotalTasks.text = "Total Tasks: $totalTasks"
+        txtPercentageTasks.text = "${(totalFinished*100)/(totalTasks)}% completed"
+
         with(entries){
-            add(PieEntry(12.3f, "Finished"))
-            add(PieEntry(46.5f, "WIP"))
-            add(PieEntry(20.8f, "Canceled"))
+            if(weekDays[0] > 0) add(PieEntry(weekDays[0].toFloat(), "Mondays"))
+            if(weekDays[1] > 0) add(PieEntry(weekDays[1].toFloat(), "Tuesdays"))
+            if(weekDays[2] > 0) add(PieEntry(weekDays[2].toFloat(), "Wednesdays"))
+            if(weekDays[3] > 0) add(PieEntry(weekDays[3].toFloat(), "Thursdays"))
+            if(weekDays[4] > 0) add(PieEntry(weekDays[4].toFloat(), "Fridays"))
+            if(weekDays[5] > 0) add(PieEntry(weekDays[5].toFloat(), "Saturdays"))
+            if(weekDays[6] > 0) add(PieEntry(weekDays[6].toFloat(), "Sundays"))
         }
         chart.data = data
         with(chart){
@@ -52,6 +78,7 @@ class MainInfoFragment : Fragment() {
             legend.isEnabled = false
             isDrawHoleEnabled = false
             animateY(1500, Easing.EaseInOutBack)
+            setUsePercentValues(true)
         }
         set.colors = colors.shuffled(Random())
 
